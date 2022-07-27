@@ -9,29 +9,22 @@ import Foundation
 
 final class MockNetworkService: NetworkServiceProtocol {
 
-    func getAllTodoItems(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
-        let timeout = TimeInterval.random(in: 1..<3)
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
-            if Bool.random() {
-                completion(.success(self.getStartArray()))
-            } else {
-                completion(.failure(NetworkError.undefined))
-            }
+    func getAllTodoItems() async throws -> [TodoItem] {
+        try await Task.sleep(nanoseconds: 2_000_000_000)
+        if Bool.random() {
+            return getStartArray()
+        } else {
+            throw NetworkError.undefined
         }
     }
 
-    func editTodoItem(_ item: TodoItem, completion: @escaping (Result<TodoItem, Error>) -> Void) {
-        let timeout = TimeInterval.random(in: 1..<3)
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
-          completion(.success(item))
-        }
+    func editTodoItem(_ item: TodoItem) async throws -> TodoItem {
+        try await Task.sleep(nanoseconds: 2_000_000_000)
+        return item
     }
 
-    func deleteTodoItem(at id: String, completion: @escaping (Result<TodoItem, Error>) -> Void) {
-        let timeout = TimeInterval.random(in: 1..<3)
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
-          completion(.success(TodoItem(text: "Hello world")))
-        }
+    func deleteTodoItem(at id: String) async throws {
+        try await Task.sleep(nanoseconds: 2_000_000_000)
     }
 }
 

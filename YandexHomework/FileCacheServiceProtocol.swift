@@ -34,17 +34,11 @@ protocol FileCacheServiceProtocol {
     /// - Parameters:
     ///   - file: Название файла
     ///   - completion: Блок действий по заврешении операции
-    func save(
-        to file: String,
-        completion: @escaping (Result<Void, Error>) -> Void
-    )
+    func save(to file: String) async throws
 
     /// Загрузить таски из файла
     /// - Parameters:
     ///   - file: Название файла
     ///   - completion: Блок действий по заврешении операции
-    func load(
-        from file: String,
-        completion: @escaping (Result<[TodoItem], Error>) -> Void
-    )
+    func load(from file: String) async throws -> [TodoItem]
 }

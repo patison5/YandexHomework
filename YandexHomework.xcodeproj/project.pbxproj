@@ -18,7 +18,6 @@
 		D6094D872899B8B300A65EAD /* RadioButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D862899B8B300A65EAD /* RadioButtonView.swift */; };
 		D6094D8A289AD38900A65EAD /* TaskCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D89289AD38900A65EAD /* TaskCellHeader.swift */; };
 		D628B6EA28A473C800B82570 /* Pods_YandexHomework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902674455B43D48C37BA5731 /* Pods_YandexHomework.framework */; };
-		D628B71C28A69B9C00B82570 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71B28A69B9C00B82570 /* NetworkService.swift */; };
 		D628B71E28A69BB800B82570 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */; };
 		D628B72028A69C8B00B82570 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71F28A69C8B00B82570 /* MockNetworkService.swift */; };
 		D6445889289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */; };
@@ -76,7 +75,6 @@
 		D6094D862899B8B300A65EAD /* RadioButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonView.swift; sourceTree = "<group>"; };
 		D6094D89289AD38900A65EAD /* TaskCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellHeader.swift; sourceTree = "<group>"; };
 		D628B6ED28A473F300B82570 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D628B71B28A69B9C00B82570 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		D628B71F28A69C8B00B82570 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
 		D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
@@ -187,7 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */,
-				D628B71B28A69B9C00B82570 /* NetworkService.swift */,
 				D628B71F28A69C8B00B82570 /* MockNetworkService.swift */,
 			);
 			name = Network;
@@ -614,7 +611,6 @@
 				D6094D872899B8B300A65EAD /* RadioButtonView.swift in Sources */,
 				D628B71E28A69BB800B82570 /* NetworkServiceProtocol.swift in Sources */,
 				D64DC7F02891954A003EAE48 /* SceneDelegate.swift in Sources */,
-				D628B71C28A69B9C00B82570 /* NetworkService.swift in Sources */,
 				D6F4C5A3289BD1F2007FF13A /* HomeViewModelProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -38,47 +38,42 @@ final class HomeViewModel {
 extension HomeViewModel: HomeViewModelDelegate {
 
     func didUpdate(model: TodoViewModel, state: TodoViewState) {
-        let newItem = TodoItem(
-            id: model.item.id,
-            text: state.text,
-            importancy: state.importancy,
-            deadline: state.deadline,
-            isFinished: state.isFinished,
-            createdAt: state.createdAt,
-            changedAt: state.changedAt
-        )
+        Task {
+            do {
+                _ = try await mockNetwork.editTodoItem(model.item)
+                let newItem = TodoItem(
+                    id: model.item.id,
+                    text: state.text,
+                    importancy: state.importancy,
+                    deadline: state.deadline,
+                    isFinished: state.isFinished,
+                    createdAt: state.createdAt,
+                    changedAt: state.changedAt
+                )
 
-        mockNetwork.editTodoItem(newItem) { [weak self] res in
-            switch res {
-            case let .success(updatedItem):
-                self?.update(with: updatedItem, model: model)
-                DDLogError("Новый элемент успешно добавлен на стороне сервера")
-                DispatchQueue.main.async {
-                    self?.view?.reloadData()
+                let isExist = data.contains { $0.item.id == newItem.id  }
+                if isExist {
+                    try? fileCache.change(item: newItem)
+                } else {
+                    data.append(model)
+                    try? fileCache.add(item: newItem)
                 }
-            case .failure:
-                DDLogError("Ошибка обновления. Нет доступа к серверу")
-            }
-        }
-    }
 
-    func didDelete(model: TodoViewModel) {
-        mockNetwork.deleteTodoItem(at: model.item.id) { [weak self] res in
-            switch res {
-            case .success:
-                guard let self = self else { return }
-                try? self.fileCache.removeItem(by: model.item.id)
                 self.saveItems()
-                self.data.removeAll { $0.item.id == model.item.id }
-                self.view?.items = self.data
-                DDLogError("Элемент успешно удален на стороне сервера")
-                DispatchQueue.main.async {
-                    self.view?.reloadData()
-                }
-            case let .failure(error):
+                view?.items = data
+            } catch {
                 DDLogError(error)
             }
         }
+        view?.reloadData()
+    }
+
+    func didDelete(model: TodoViewModel) {
+        try? fileCache.removeItem(by: model.item.id)
+        self.saveItems()
+        data.removeAll { $0.item.id == model.item.id }
+        view?.items = data
+        view?.reloadData()
     }
 }
 
@@ -94,51 +89,32 @@ extension HomeViewModel: HomeViewModelProtocol {
         let newModel = TodoViewModel(item: TodoItem(text: text))
         data.append(newModel)
         try? fileCache.add(item: newModel.item)
-
-        mockNetwork.editTodoItem(newModel.item) { [weak self] res in
-            guard let self = self else { return }
-            switch res {
-            case .success:
-                self.saveItems()
-                self.view?.items = self.data
-                DDLogError("Новый элемент успешно добавлен на стороне сервера")
-                DispatchQueue.main.async {
-                    self.view?.insertRow(at: IndexPath(row: self.data.count - 1, section: 0))
-                }
-            case .failure:
-                DDLogError("Ошибка добавления. Нет доступа к серверу")
-            }
-        }
+        self.saveItems()
+        view?.items = data
+        view?.insertRow(at: IndexPath(row: data.count - 1, section: 0))
     }
 
     func delete(at indexPath: IndexPath) {
         guard let view = view else { return }
-        let idx = isHidden ? data[indexPath.row].item.id : view.items[indexPath.row].item.id
-
-        mockNetwork.deleteTodoItem(at: idx) { [weak self] res in
-            guard let self = self else {
-                DDLogError("error")
-                return
+        let id = view.items[indexPath.row].item.id
+        if !isHidden {
+            Task {
+                try await mockNetwork.deleteTodoItem(at: id)
             }
-            switch res {
-            case .success:
-                if !self.isHidden {
-                    let id = view.items[indexPath.row].item.id
-                    try? self.fileCache.removeItem(by: id)
-                    self.data.removeAll { $0.item.id == id }
-                    view.items.remove(at: indexPath.row)
-                } else {
-                    try? self.fileCache.removeItem(by: self.data[indexPath.row].item.id)
-                    self.data.remove(at: indexPath.row)
-                    view.items = self.data
-                }
-                self.saveItems()
-                DispatchQueue.main.async {
-                    view.deleteRow(at: indexPath)
-                }
-            case let .failure(error):
-                DDLogError(error)
+            try? fileCache.removeItem(by: id)
+            self.saveItems()
+            data.removeAll { $0.item.id == id }
+            view.items.remove(at: indexPath.row)
+            view.deleteRow(at: indexPath)
+        } else {
+            Task {
+                try await mockNetwork.deleteTodoItem(at: data[indexPath.row].item.id)
             }
+            try? fileCache.removeItem(by: data[indexPath.row].item.id)
+            self.saveItems()
+            data.remove(at: indexPath.row)
+            view.items = data
+            view.deleteRow(at: indexPath)
         }
         setupHeader()
     }
@@ -160,37 +136,28 @@ extension HomeViewModel: HomeViewModelProtocol {
     }
 
     func toggleStatus(on model: TodoViewModel, at: IndexPath) {
-        mockNetwork.editTodoItem(model.item) { [weak self] res in
-            switch res {
-            case .success:
-                guard let self = self,
-                      let view = self.view
-                else { return }
-
-                if !self.isHidden {
-                    model.state.isFinished.toggle()
-                    model.item = model.item.toggleComplete()
-                    try? self.fileCache.change(item: model.item)
-                    self.saveItems()
-                    view.items.remove(at: at.row)
-                } else {
-                    model.state.isFinished.toggle()
-                    model.item = model.item.toggleComplete()
-                    try? self.fileCache.change(item: model.item)
-                    self.saveItems()
-                }
-                DispatchQueue.main.async {
-                    if !self.isHidden {
-                        view.deleteRow(at: at)
-                    } else {
-                        view.reloadRow(at: at)
-                    }
-                    self.setupHeader()
-                }
-            case let .failure(error):
-                DDLogError(error)
+        guard let view = view else { return }
+        if !isHidden {
+            Task {
+                _ = try await mockNetwork.editTodoItem(model.item)
             }
+            model.state.isFinished.toggle()
+            model.item = model.item.toggleComplete()
+            try? fileCache.change(item: model.item)
+            self.saveItems()
+            view.items.remove(at: at.row)
+            view.deleteRow(at: at)
+        } else {
+            Task {
+                _ = try await mockNetwork.editTodoItem(model.item)
+            }
+            model.state.isFinished.toggle()
+            model.item = model.item.toggleComplete()
+            try? fileCache.change(item: model.item)
+            self.saveItems()
+            view.reloadRow(at: at)
         }
+        setupHeader()
     }
 
     func openModal(with model: TodoViewModel? = nil) {
@@ -223,25 +190,22 @@ private extension HomeViewModel {
 
     // MARK: - Fetch items -
     func fetchItems() {
-        mockNetwork.getAllTodoItems { [weak self] res in
-            switch res {
-            case let .success(networkItems):
+        Task {
+            do {
+                let networkItems = try await self.mockNetwork.getAllTodoItems()
                 DDLogInfo("Загрузили данные из сети. Обновляем кэш")
                 networkItems.forEach {
-                    try? self?.fileCache.add(item: $0)
+                    try? self.fileCache.add(item: $0)
                 }
-                self?.parse(items: networkItems)
-            case .failure:
+                self.parse(items: networkItems)
+            } catch {
                 DDLogError("Ошибка чтения данных из сети, читаем данные из файла")
-                guard let filename = self?.fileName else { return }
-                self?.fileCache.load(from: filename) { result in
-                    switch result {
-                    case let .success(fileItems):
-                        DDLogInfo("Загрузили данные из файла")
-                        self?.parse(items: fileItems)
-                    case let .failure(error):
-                        DDLogError(error.localizedDescription)
-                    }
+                do {
+                    let fileItems = try await self.fileCache.load(from: self.fileName)
+                    DDLogInfo("Загрузили данные из файла")
+                    self.parse(items: fileItems)
+                } catch {
+                    DDLogError(error.localizedDescription)
                 }
             }
         }
@@ -249,11 +213,11 @@ private extension HomeViewModel {
 
     // MARK: - Save items -
     func saveItems() {
-        fileCache.save(to: fileName) { result in
-            switch result {
-            case .success:
+        Task {
+            do {
+                try await fileCache.save(to: fileName)
                 DDLogInfo("Данные успешно сохранены в файл")
-            case let .failure(error):
+            } catch {
                 DDLogError(error)
             }
         }
@@ -269,26 +233,14 @@ private extension HomeViewModel {
             }
         }
         saveItems()
-        data = items.map { TodoViewModel(item: $0) }
-        data.forEach {
+        self.data = items.map { TodoViewModel(item: $0) }
+        self.data.forEach {
             $0.delegate = self
         }
-        view?.items = data
+        view?.items = self.data
         DispatchQueue.main.async { [weak self] in
             self?.view?.reloadData()
         }
-    }
-
-    func update(with item: TodoItem, model: TodoViewModel) {
-        let isExist = data.contains { $0.item.id == item.id  }
-        if isExist {
-            try? fileCache.change(item: item)
-        } else {
-            data.append(model)
-            try? fileCache.add(item: item)
-        }
-        saveItems()
-        view?.items = data
     }
 
     // MARK: - Default info

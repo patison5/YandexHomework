@@ -10,6 +10,8 @@ import Foundation
 /// Описание вью-модели
 protocol HomeViewModelProtocol: AnyObject {
 
+    func viewDidLoad()
+
     // MARK: - Public properties
 
     /// Указатель на родительский контроллер
@@ -19,9 +21,6 @@ protocol HomeViewModelProtocol: AnyObject {
     var data: [TodoViewModel] { get set }
 
     // MARK: - Public methods
-
-    /// Загрузить данные
-    func viewDidLoad()
 
     /// Создать новую задачу на основе текста
     /// - Parameter text: Текст заголовка задачи
