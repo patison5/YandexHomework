@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0599646DE6EDBF824D2EE68B /* Pods_YandexHomeworkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 481FEAD2DEA8EE0379716071 /* Pods_YandexHomeworkTests.framework */; };
 		6859409F163755AB49A5ED70 /* Pods_YandexHomework_YandexHomeworkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BB8ECA426C0E325C673151 /* Pods_YandexHomework_YandexHomeworkUITests.framework */; };
+		D6082A0228AF957600B534B7 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6082A0128AF957600B534B7 /* Debug.swift */; };
+		D6082A0428B2B74400B534B7 /* WebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6082A0328B2B74400B534B7 /* WebController.swift */; };
 		D6094D742896EF4600A65EAD /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D732896EF4600A65EAD /* TodoViewModel.swift */; };
 		D6094D762897059E00A65EAD /* TodoViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D752897059E00A65EAD /* TodoViewModelProtocol.swift */; };
 		D6094D7B2897FCB200A65EAD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D7A2897FCB100A65EAD /* HomeViewController.swift */; };
@@ -37,6 +39,10 @@
 		D64DC83928927A97003EAE48 /* ImportancyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC83828927A97003EAE48 /* ImportancyView.swift */; };
 		D64DC83D28930A6D003EAE48 /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC83C28930A6D003EAE48 /* DeadlineView.swift */; };
 		D64DC8422893F2C7003EAE48 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC8412893F2C6003EAE48 /* Date+Extension.swift */; };
+		D699174828AD4006003BEF6F /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D699174728AD4006003BEF6F /* ApiError.swift */; };
+		D699174A28AD401D003BEF6F /* ApiTodoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D699174928AD401D003BEF6F /* ApiTodoListModel.swift */; };
+		D699174C28AE2FD6003BEF6F /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = D699174B28AE2FD6003BEF6F /* Variables.swift */; };
+		D699174E28AE8C2E003BEF6F /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D699174D28AE8C2E003BEF6F /* DispatchQueue.swift */; };
 		D6F4C5A1289BCD82007FF13A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A0289BCD82007FF13A /* HomeViewModel.swift */; };
 		D6F4C5A3289BD1F2007FF13A /* HomeViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A2289BD1F2007FF13A /* HomeViewModelProtocol.swift */; };
 		D6F4C5A5289C4FF1007FF13A /* TodoViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A4289C4FF1007FF13A /* TodoViewState.swift */; };
@@ -67,6 +73,8 @@
 		799C2D090CEEC3AC4124305E /* Pods-YandexHomework-YandexHomeworkUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YandexHomework-YandexHomeworkUITests.debug.xcconfig"; path = "Target Support Files/Pods-YandexHomework-YandexHomeworkUITests/Pods-YandexHomework-YandexHomeworkUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8F17A7FF3D627513B05DBB84 /* Pods-YandexHomework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YandexHomework.debug.xcconfig"; path = "Target Support Files/Pods-YandexHomework/Pods-YandexHomework.debug.xcconfig"; sourceTree = "<group>"; };
 		902674455B43D48C37BA5731 /* Pods_YandexHomework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YandexHomework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6082A0128AF957600B534B7 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		D6082A0328B2B74400B534B7 /* WebController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebController.swift; sourceTree = "<group>"; };
 		D6094D732896EF4600A65EAD /* TodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
 		D6094D752897059E00A65EAD /* TodoViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewModelProtocol.swift; sourceTree = "<group>"; };
 		D6094D7A2897FCB100A65EAD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +107,10 @@
 		D64DC83828927A97003EAE48 /* ImportancyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportancyView.swift; sourceTree = "<group>"; };
 		D64DC83C28930A6D003EAE48 /* DeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
 		D64DC8412893F2C6003EAE48 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		D699174728AD4006003BEF6F /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
+		D699174928AD401D003BEF6F /* ApiTodoListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiTodoListModel.swift; sourceTree = "<group>"; };
+		D699174B28AE2FD6003BEF6F /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
+		D699174D28AE8C2E003BEF6F /* DispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		D6F4C5A0289BCD82007FF13A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		D6F4C5A2289BD1F2007FF13A /* HomeViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelProtocol.swift; sourceTree = "<group>"; };
 		D6F4C5A4289C4FF1007FF13A /* TodoViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewState.swift; sourceTree = "<group>"; };
@@ -162,6 +174,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D6082A0028AF954800B534B7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D699174B28AE2FD6003BEF6F /* Variables.swift */,
+				D6082A0328B2B74400B534B7 /* WebController.swift */,
+				D6082A0128AF957600B534B7 /* Debug.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		D6094D77289705AE00A65EAD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +208,7 @@
 		D628B71A28A69B8B00B82570 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				D699174428AD3D88003BEF6F /* ApiService */,
 				D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */,
 				D628B71B28A69B9C00B82570 /* NetworkService.swift */,
 				D628B71F28A69C8B00B82570 /* MockNetworkService.swift */,
@@ -229,6 +252,7 @@
 		D64DC7EC2891954A003EAE48 /* YandexHomework */ = {
 			isa = PBXGroup;
 			children = (
+				D6082A0028AF954800B534B7 /* Helpers */,
 				D64DC8402893F2B6003EAE48 /* Extensions */,
 				D64DC83128926412003EAE48 /* Design System */,
 				D64DC81F2891971D003EAE48 /* View */,
@@ -310,8 +334,18 @@
 			isa = PBXGroup;
 			children = (
 				D64DC8412893F2C6003EAE48 /* Date+Extension.swift */,
+				D699174D28AE8C2E003BEF6F /* DispatchQueue.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		D699174428AD3D88003BEF6F /* ApiService */ = {
+			isa = PBXGroup;
+			children = (
+				D699174728AD4006003BEF6F /* ApiError.swift */,
+				D699174928AD401D003BEF6F /* ApiTodoListModel.swift */,
+			);
+			name = ApiService;
 			sourceTree = "<group>";
 		};
 		D6F4C59F289BCD71007FF13A /* ViewModel */ = {
@@ -558,7 +592,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n    ${PODS_ROOT}/SwiftLint/swiftlint autocorrect && ${PODS_ROOT}/SwiftLint/swiftlint --config .swiftlint.yml\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n    ${PODS_ROOT}/SwiftLint/swiftlint --config .swiftlint.yml\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		F54C6D280D00FAA453F32938 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -600,16 +634,22 @@
 				D6F4C5A5289C4FF1007FF13A /* TodoViewState.swift in Sources */,
 				D6094D8A289AD38900A65EAD /* TaskCellHeader.swift in Sources */,
 				D64DC83D28930A6D003EAE48 /* DeadlineView.swift in Sources */,
+				D699174A28AD401D003BEF6F /* ApiTodoListModel.swift in Sources */,
 				D6445889289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift in Sources */,
+				D6082A0228AF957600B534B7 /* Debug.swift in Sources */,
 				D6094D812899AD3F00A65EAD /* IconWithDateView.swift in Sources */,
 				D6F4C5A7289D4871007FF13A /* HomeViewControllerProtocol.swift in Sources */,
 				D6094D7B2897FCB200A65EAD /* HomeViewController.swift in Sources */,
+				D6082A0428B2B74400B534B7 /* WebController.swift in Sources */,
+				D699174828AD4006003BEF6F /* ApiError.swift in Sources */,
+				D699174C28AE2FD6003BEF6F /* Variables.swift in Sources */,
 				D6F4C5A9289DB21F007FF13A /* TaskInputCell.swift in Sources */,
 				D64DC7EE2891954A003EAE48 /* AppDelegate.swift in Sources */,
 				D64DC8262891978C003EAE48 /* FileCacheError.swift in Sources */,
 				D6094D762897059E00A65EAD /* TodoViewModelProtocol.swift in Sources */,
 				D64DC83928927A97003EAE48 /* ImportancyView.swift in Sources */,
 				D64DC82428919771003EAE48 /* FileCache.swift in Sources */,
+				D699174E28AE8C2E003BEF6F /* DispatchQueue.swift in Sources */,
 				D6094D742896EF4600A65EAD /* TodoViewModel.swift in Sources */,
 				D6094D872899B8B300A65EAD /* RadioButtonView.swift in Sources */,
 				D628B71E28A69BB800B82570 /* NetworkServiceProtocol.swift in Sources */,

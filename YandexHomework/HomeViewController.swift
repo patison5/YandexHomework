@@ -81,6 +81,8 @@ extension HomeViewController {
         tableView.dataSource = self
 
         viewModel.viewDidLoad()
+
+        setupOAuth()
     }
 
     override func viewDidLayoutSubviews() {
@@ -142,6 +144,14 @@ extension HomeViewController: HomeViewControllerProtocol {
     func needToReloadTable() {
         self.tableView.reloadData()
     }
+
+    func showStatusIndicator() {
+        headerView.showActivityIndicator()
+    }
+
+    func hideStatusIndicator() {
+        headerView.hideActivityIndicator()
+    }
 }
 
 // MARK: - Private methods
@@ -194,6 +204,15 @@ private extension HomeViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification, object: nil
         )
+    }
+
+    func setupOAuth() {
+        let controller = WebController()
+        controller.action = { [weak self] in
+            Variables.shared.isInited = false
+            self?.viewModel.viewDidLoad()
+        }
+        present(controller, animated: true, completion: nil)
     }
 }
 

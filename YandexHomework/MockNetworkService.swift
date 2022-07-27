@@ -9,6 +9,12 @@ import Foundation
 
 final class MockNetworkService: NetworkServiceProtocol {
 
+    func get(completion: @escaping (Result<ApiTodoListModel, Error>) -> Void) {}
+    func patch(with list: ApiTodoListModel, completion: @escaping (Result<ApiTodoListModel, Error>) -> Void) {}
+    func delete(by id: String, completion: @escaping (Result<ApiTodoElementModel, Error>) -> Void) {}
+    func update(by element: ApiTodoElementModel, completion: @escaping (Result<ApiTodoElementModel, Error>) -> Void) {}
+    func add(by element: ApiTodoElementModel, completion: @escaping (Result<ApiTodoElementModel, Error>) -> Void) {}
+
     func getAllTodoItems(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
         let timeout = TimeInterval.random(in: 1..<3)
         DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {

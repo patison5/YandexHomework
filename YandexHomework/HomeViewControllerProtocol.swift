@@ -50,4 +50,10 @@ protocol HomeViewControllerProtocol: AnyObject {
     /// Отрисовать модальное окно
     /// - Parameter modal: Контроллер модалки
     func present(modal: UINavigationController)
+
+    /// Отобразить индикатор загрузки
+    func showStatusIndicator()
+
+    /// Спрятать индикатор загрузки
+    func hideStatusIndicator()
 }
