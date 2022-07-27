@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 final class TaskModel {
 
@@ -41,7 +42,6 @@ final class TaskCell: UITableViewCell {
 
     /// Действие при клике по радио-кнопке
     var action: (() -> Void)?
-
 
     // MARK: - Private properties
 
@@ -79,7 +79,6 @@ final class TaskCell: UITableViewCell {
         return view
     }()
 
-
     // MARK: - Init
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -97,7 +96,6 @@ final class TaskCell: UITableViewCell {
         super.prepareForReuse()
         titleLabel.unstrike()
     }
-
 
     // MARK: - Public methods
 
@@ -119,10 +117,10 @@ final class TaskCell: UITableViewCell {
         }
 
         titleLabel.text = viewState.text
-        
-        var status: RadioButtonModel.Status = viewState.importancy == .important ? .highPriority : .off
+
+        var status: RadioButtonModel.Status = viewState.importancy == .important ? .highPriority : .inActive
         if viewState.isFinished {
-            status = .on
+            status = .active
         }
         let radioButtonModel = RadioButtonModel(status: status) { [weak self] in
             self?.action?()
@@ -130,13 +128,13 @@ final class TaskCell: UITableViewCell {
         radioButtonView.configure(with: radioButtonModel)
 
         iconWithDateView.isHidden = true
-        if let deadline = viewState.deadline, radioButtonModel.status != .on {
+        if let deadline = viewState.deadline, radioButtonModel.status != .active {
             let iconWithDateModel = IconWithDateModel(icon: .iconCalendar, date: deadline)
             iconWithDateView.configure(with: iconWithDateModel)
             iconWithDateView.isHidden = false
         }
 
-        if radioButtonModel.status == .on {
+        if radioButtonModel.status == .active {
             titleLabel.strike()
             iconWithDateView.isHidden = true
         } else {
@@ -191,7 +189,6 @@ private extension TaskCell {
         titleLabelLeadingAnchorConstraint?.isActive = true
     }
 }
-
 
 // MARK: - Private UILabel extension
 

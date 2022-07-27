@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import DesignSystem
 
 final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
-
 
     // MARK: - Public properties
 
@@ -20,7 +20,6 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
             saveButton.isEnabled = newValue
         }
     }
-
 
     // MARK: - Private properties
 
@@ -170,7 +169,6 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
 
     private let deadlineView = DeadlineView()
 
-
     // MARK: - Init
 
     init(viewModel: TodoViewModel) {
@@ -183,7 +181,6 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 
 // MARK: - Override
 
@@ -217,13 +214,12 @@ extension TodoModalViewController {
     }
 }
 
-
 // MARK: - UITextViewDelegate
 
 extension TodoModalViewController: UITextViewDelegate {
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if (textView.textColor == UIColor.lightGray) {
+        if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
         }
@@ -245,7 +241,6 @@ extension TodoModalViewController: UITextViewDelegate {
     }
 }
 
-
 // MARK: - TodoModalProtocol
 
 extension TodoModalViewController: TodoModalProtocol {
@@ -256,7 +251,7 @@ extension TodoModalViewController: TodoModalProtocol {
 
     func configure(with viewState: TodoViewState) {
         set(deadline: viewState.deadline)
-        set(text: viewState.text.count > 0 ? viewState.text : nil)
+        set(text: !viewState.text.isEmpty ? viewState.text : nil)
         set(importancy: viewState.importancy)
         if let deadline = viewState.deadline {
             set(date: deadline)
@@ -288,7 +283,6 @@ extension TodoModalViewController: TodoModalProtocol {
         }
     }
 }
-
 
 // MARK: - Private methods
 
@@ -401,7 +395,7 @@ private extension TodoModalViewController {
         textView.text = text
         textView.textColor = Token.labelPrimary.color
 
-        saveButton.isEnabled = text.count != 0
+        saveButton.isEnabled = !text.isEmpty
     }
 
     func set(importancy: Importancy) {
@@ -412,8 +406,6 @@ private extension TodoModalViewController {
         deadlineView.deadline = deadline
     }
 }
-
-
 
 // MARK: - Action extension
 

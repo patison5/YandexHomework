@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+import DesignSystem
+import CocoaLumberjack
 
 final class HomeViewController: UIViewController {
 
@@ -63,13 +64,13 @@ final class HomeViewController: UIViewController {
     private let headerView = TaskCellHeader()
 }
 
-
 // MARK: - Override methods
 
 extension HomeViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        DDLogInfo("HomeViewController - viewDidLoad")
 
         viewModel.view = self
 
@@ -96,7 +97,6 @@ extension HomeViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 }
-
 
 // MARK: - HomeViewControllerProtocol
 
@@ -148,12 +148,12 @@ extension HomeViewController: HomeViewControllerProtocol {
     }
 }
 
-
 // MARK: - Private methods
 
 private extension HomeViewController {
 
     func setupTable() {
+        DDLogInfo("HomeViewController - setupTable")
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.identifier)
         tableView.register(TaskInputCell.self, forCellReuseIdentifier: TaskInputCell.identifier)
         tableView.register(TaskCellHeader.self, forHeaderFooterViewReuseIdentifier: TaskCellHeader.identifier)
@@ -202,7 +202,6 @@ private extension HomeViewController {
     }
 }
 
-
 // MARK: - UITableViewDataSource
 
 extension HomeViewController: UITableViewDataSource {
@@ -223,8 +222,7 @@ extension HomeViewController: UITableViewDataSource {
             ])
         }
 
-        let config = UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
-            [weak self] () -> UIViewController? in
+        let config = UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { [weak self] () -> UIViewController? in
             guard let self = self else { return nil }
 
             let item = self.items[indexPath.row]
@@ -285,7 +283,7 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         headerView.model = TaskCellHeaderModel(
             amount: 0,
-            action: { [weak self] isHidden in
+            action: { [weak self] _ in
                 self?.viewModel.toggleCompletedTasks()
             }
         )
@@ -294,14 +292,13 @@ extension HomeViewController: UITableViewDataSource {
     }
 }
 
-
 // MARK: - UITableViewDelegate
 
 extension HomeViewController: UITableViewDelegate {
 
     // MARK: - Размер таблицы -
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count + 1 //я знаю, что это костыль
+        return items.count + 1 // я знаю, что это костыль
     }
 
     // MARK: - Клик по ячейке таблицы -
@@ -315,16 +312,14 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard tableView.cellForRow(at: indexPath) is TaskCell else { return nil }
 
-        let infoButton = UIContextualAction(style: .normal, title:  "", handler: {
-            [weak self] (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let infoButton = UIContextualAction(style: .normal, title: "", handler: { [weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let self = self else { return success(true) }
             let model = self.items[indexPath.row]
             self.viewModel.openModal(with: model)
             success(true)
         })
 
-        let deleteButton = UIContextualAction(style: .destructive, title:  "", handler: {
-            [weak self] (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let deleteButton = UIContextualAction(style: .destructive, title: "", handler: { [weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let self = self else { return success(true) }
             self.viewModel.delete(at: indexPath)
             success(true)
@@ -343,8 +338,7 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard tableView.cellForRow(at: indexPath) is TaskCell else { return nil }
 
-        let acceptButton = UIContextualAction(style: .normal, title:  "", handler: {
-            [weak self] (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let acceptButton = UIContextualAction(style: .normal, title: "", handler: { [weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let self = self else { return success(true) }
             let model = self.items[indexPath.row]
             self.viewModel.toggleStatus(on: model, at: indexPath)
@@ -355,7 +349,6 @@ extension HomeViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [acceptButton])
     }
 }
-
 
 // MARK: - Action methods
 

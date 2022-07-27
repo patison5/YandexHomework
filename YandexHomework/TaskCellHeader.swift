@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import DesignSystem
 
 /// Модель шапки таблицы с задачами
 final class TaskCellHeaderModel {
@@ -43,7 +43,6 @@ class TaskCellHeader: UITableViewHeaderFooterView {
         }
     }
 
-
     // MARK: - Private properties
 
     private let title: UILabel = {
@@ -63,7 +62,6 @@ class TaskCellHeader: UITableViewHeaderFooterView {
         return view
     }()
 
-
     // MARK: - Init
 
     override init(reuseIdentifier: String?) {
@@ -74,7 +72,6 @@ class TaskCellHeader: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
     // MARK: - Public methods
 
@@ -90,7 +87,6 @@ class TaskCellHeader: UITableViewHeaderFooterView {
         self.buttonView.setTitle(value, for: .normal)
     }
 }
-
 
 // MARK: - Private methods
 
@@ -113,7 +109,6 @@ private extension TaskCellHeader {
         ])
     }
 }
-
 
 // MARK: - Actions
 

@@ -13,11 +13,9 @@ final class FileCache {
 
     var items: [TodoItem] = []
 
-
     // MARK: - Private Properties
 
     private let fileName: String
-
 
     // MARK: - Init
 
@@ -25,7 +23,6 @@ final class FileCache {
         self.fileName = fileName
     }
 }
-
 
 // MARK: - FileCacheProtocol
 
@@ -78,7 +75,7 @@ extension FileCache: FileCacheProtocol {
             throw FileCacheError.invalidJson
         }
 
-        guard let jsonArray = try JSONSerialization.jsonObject(with: data, options : []) as? [[String: Any]] else {
+        guard let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else {
             throw FileCacheError.invalidJson
         }
 
@@ -87,7 +84,6 @@ extension FileCache: FileCacheProtocol {
         }
     }
 }
-
 
 // MARK: - Private extension
 

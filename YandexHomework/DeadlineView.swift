@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import DesignSystem
 
 final class DeadlineView: UIView {
-
 
     // MARK: - Public properties
 
@@ -42,7 +42,6 @@ final class DeadlineView: UIView {
             toggleButton.setOn(true, animated: false)
         }
     }
-
 
     // MARK: - Private properties
 
@@ -85,7 +84,6 @@ final class DeadlineView: UIView {
         return stack
     }()
 
-
     // MARK: - Init
 
     override init(frame: CGRect) {
@@ -103,7 +101,6 @@ final class DeadlineView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 
 // MARK: - Private extension
 
@@ -124,13 +121,12 @@ private extension DeadlineView {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.margin),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.margin),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.margin),
-            
+
             toggleButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.margin),
             toggleButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }
-
 
 // MARK: - Actions extension
 
@@ -140,7 +136,7 @@ extension DeadlineView {
         valueDidChange?(switcher.isOn)
     }
 
-    @objc func clickTitleLabel(sender:UITapGestureRecognizer) {
+    @objc func clickTitleLabel(sender: UITapGestureRecognizer) {
         deadLineDidClicked?()
     }
 }
