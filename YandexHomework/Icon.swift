@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 enum Icon: String {
     case iconArrowDown20 = "iconArrowDown20"
     case iconExclaminationPoint20 = "iconExclaminationPoint20"
@@ -29,4 +28,3 @@ extension Icon {
         return UIImage(named: rawValue)
     }
 }
-
