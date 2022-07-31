@@ -8,31 +8,30 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    
+
+    let button = UIButton()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let test1 = TodoItem(id: "Todo1", text: "Todo1", deadline: Date(), isFinished: false, startDate: Date(), finishDate: nil)
-        let test2 = TodoItem(id: "Todo2", text: "Todo2", importancy: .normal, deadline: Date(), isFinished: false, startDate: Date(), finishDate: nil)
-        let test3 = TodoItem(id: "Todo3", text: "Todo3", importancy: .important, deadline: Date(), isFinished: false, startDate: Date(), finishDate: nil)
 
-        let fileName = "TodoData.json"
-        
-        do {
-            let cache = FileCache(fileName: fileName)
-            try cache.add(item: test1)
-            try cache.add(item: test2)
-            try cache.add(item: test3)
-            try cache.pushItems(to: fileName)
-            try cache.removeItem(by: "Todo1")
-            try cache.pullItems(from: fileName)
-            print(cache.items.count)
-            
-            cache.items.forEach {
-                print($0.id)
-            }
-        } catch {
-            print(error)
-        }
+        view.backgroundColor = Token.backPrimary.color
+
+        button.setTitle("Открыть домашку", for: .normal)
+        view.addSubview(button)
+        button.frame = CGRect(x: 100, y: 100, width: 200, height: 50)
+        button.backgroundColor = Token.backSecondary.color
+        button.setTitleColor(UIColor.red, for: .normal)
+        button.layer.cornerRadius = 16
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+
+    @objc private func didTapButton() {
+        let viewModel: TodoViewModel = TodoViewModel()
+        let controller = TodoModalViewController(viewModel: viewModel)
+        viewModel.view = controller
+
+        let navC = UINavigationController(rootViewController: controller)
+        present(navC, animated: true)
     }
 }
