@@ -313,7 +313,8 @@ extension TodoModalViewController {
 
 extension TodoModalViewController {
 
-    func showCalendar() {
+    func showCalendar(with date: Date) {
+        calendarView.setDate(date, animated: false)
         calendarView.layer.opacity = 1
         calendarSeparator.layer.opacity = 1
         UIView.animate(withDuration: 0.25) {

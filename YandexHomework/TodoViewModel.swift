@@ -68,7 +68,7 @@ extension TodoViewModel: TodoViewModelProtocol {
     func deadlineDidChange(isEnabled: Bool) {
         if isEnabled {
             self.deadline = deadline ?? Date().dayAfter
-            view?.showCalendar()
+            view?.showCalendar(with: deadline ?? Date().dayAfter)
         } else {
             self.deadline = nil
             view?.dismissCalendar()
@@ -78,7 +78,7 @@ extension TodoViewModel: TodoViewModelProtocol {
 
     func deadLineDidClick() {
         self.deadline = deadline ?? Date().dayAfter
-        view?.showCalendar()
+        view?.showCalendar(with: deadline ?? Date().dayAfter)
         view?.isSaveButtonEnabled = true
     }
 
@@ -93,6 +93,7 @@ extension TodoViewModel: TodoViewModelProtocol {
     }
 
     func saveButtonDidTap() {
+        self.changedAt = Date()
         saveData()
         view?.dismiss(animated: true)
     }
