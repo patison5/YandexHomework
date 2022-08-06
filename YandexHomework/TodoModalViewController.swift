@@ -21,10 +21,41 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    private var viewModel: TodoViewModel
-
 
     // MARK: - Private properties
+
+    private var viewModel: TodoViewModel
+
+    private var isLandscape: Bool = UIDevice.current.orientation.isLandscape {
+        didSet {
+            deleteButton.isHidden = isLandscape
+            bodyStackView.isHidden = isLandscape
+            if isLandscape {
+                // Пока костыль, ищу способ лучше
+                let bounds = UIScreen.main.bounds
+                let minHeight = bounds.height > bounds.width ? bounds.width : bounds.height
+                let barHeight = navigationController?.navigationBar.frame.maxY ?? 0
+                textViewMinHeightConstraint?.constant = minHeight - Constants.padding - barHeight
+            } else {
+                textViewMinHeightConstraint?.constant = Constants.textViewMinHeight
+            }
+        }
+    }
+
+    private var textViewMinHeightConstraint: NSLayoutConstraint?
+
+    // MARK: - Константы -
+
+    private class Constants {
+        static let padding: CGFloat = 16.0
+        static let textViewMinHeight: CGFloat = 120
+        static let deadlineViewMinHeight: CGFloat = 54
+        static let cornerRdius: CGFloat = 16
+        static let fonsize: CGFloat = 17
+        static let spacing: CGFloat = 16
+    }
+
+    // MARK: - Вьюхи -
 
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -36,29 +67,35 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .equalSpacing
-        stack.spacing = 16.0
+        stack.spacing = Constants.spacing
         stack.alignment = .fill
         return stack
     }()
 
-    private let bodyStackView: UIStackView = {
+    private lazy var bodyStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .equalSpacing
         stack.backgroundColor = Token.backSecondary.color
-        stack.layer.cornerRadius = 16
+        stack.layer.cornerRadius = Constants.cornerRdius
         return stack
     }()
 
-    private let textView: UITextView = {
+    private lazy var textView: UITextView = {
         let view = UITextView()
-        view.layer.cornerRadius = 16
-        view.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        view.font = UIFont.systemFont(ofSize: 17)
+        view.layer.cornerRadius = Constants.cornerRdius
+        view.textContainerInset = UIEdgeInsets(
+            top: Constants.padding,
+            left: Constants.padding,
+            bottom: Constants.padding,
+            right: Constants.padding
+        )
+        view.font = UIFont.systemFont(ofSize: Constants.fonsize)
         view.isScrollEnabled = false
         view.keyboardDismissMode = .interactive
-        view.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt i"
+        view.text = "placeholder"
+//        view.tintColor = UIColor.lightGray
         return view
     }()
 
@@ -84,29 +121,23 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
         backgroundConfig.backgroundColor = Token.backSecondary.color
 
         var configuration = UIButton.Configuration.filled()
-        configuration.contentInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
+        configuration.contentInsets = .init(
+            top: Constants.padding,
+            leading: Constants.padding,
+            bottom: Constants.padding,
+            trailing: Constants.padding
+        )
         configuration.background = backgroundConfig
 
         let button = UIButton(configuration: configuration)
         button.setTitle("Удалить", for: .normal)
         button.setTitleColor(UIColor.red, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        button.layer.cornerRadius = 16
+        button.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fonsize)
+        button.layer.cornerRadius = Constants.cornerRdius
         button.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
         button.layer.masksToBounds = true
-        
         button.addTarget(self, action: #selector(deleteTodo), for: .touchUpInside)
         return button
-    }()
-
-    private let importancyView: ImportancyView = {
-        let view = ImportancyView()
-        return view
-    }()
-
-    private let deadlineView: DeadlineView = {
-        let view = DeadlineView()
-        return view
     }()
 
     private lazy var calendarView: UIDatePicker = {
@@ -123,7 +154,7 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
         wraper.addSubview(calendarView)
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            calendarView.widthAnchor.constraint(equalTo: wraper.widthAnchor, constant: -16),
+            calendarView.widthAnchor.constraint(equalTo: wraper.widthAnchor, constant: -Constants.padding),
             calendarView.centerXAnchor.constraint(equalTo: wraper.centerXAnchor),
             calendarView.bottomAnchor.constraint(equalTo: wraper.bottomAnchor),
             calendarView.topAnchor.constraint(equalTo: wraper.topAnchor)
@@ -135,10 +166,17 @@ final class TodoModalViewController: UIViewController, UIScrollViewDelegate {
 
     private lazy var calendarSeparator = separator
 
+    private let importancyView = ImportancyView()
+
+    private let deadlineView = DeadlineView()
+
+
+    // MARK: - Init
+
     init(viewModel: TodoViewModel) {
         self.viewModel = viewModel
-
         super.init(nibName: nil, bundle: nil)
+        configure(with: viewModel.state)
     }
 
     required init?(coder: NSCoder) {
@@ -171,7 +209,11 @@ extension TodoModalViewController {
 
         saveButton.isEnabled = false
 
-        viewModel.viewDidLoad()
+//        viewModel.viewDidLoad()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        isLandscape = UIDevice.current.orientation.isLandscape
     }
 }
 
@@ -180,14 +222,70 @@ extension TodoModalViewController {
 
 extension TodoModalViewController: UITextViewDelegate {
 
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if (textView.textColor == UIColor.lightGray) {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+
     func textViewDidEndEditing(_ textView: UITextView) {
         viewModel.textDidChange(text: textView.text)
+
+        if textView.text.isEmpty {
+            textView.text = "Что нужно сделать?"
+            textView.textColor = UIColor.lightGray
+        }
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         viewModel.textDidChange(text: newText)
         return false
+    }
+}
+
+
+// MARK: - TodoModalProtocol
+
+extension TodoModalViewController: TodoModalProtocol {
+
+    func closeModal(animated: Bool) {
+        self.dismiss(animated: animated)
+    }
+
+    func configure(with viewState: TodoViewState) {
+        set(deadline: viewState.deadline)
+        set(text: viewState.text.count > 0 ? viewState.text : nil)
+        set(importancy: viewState.importancy)
+        if let deadline = viewState.deadline {
+            set(date: deadline)
+        }
+    }
+
+    func setupDeadline(with date: Date) {
+        set(deadline: date)
+        set(date: date)
+    }
+
+    func showCalendar() {
+        calendarView.layer.opacity = 1
+        calendarSeparator.layer.opacity = 1
+        UIView.animate(withDuration: 0.25) {
+            self.calendarView.isHidden = false
+            self.calendarSeparator.isHidden = false
+            self.calendarWraper.isHidden = false
+        }
+    }
+
+    func dismissCalendar() {
+        calendarView.layer.opacity = 0
+        calendarSeparator.layer.opacity = 0
+        UIView.animate(withDuration: 0.25) {
+            self.calendarView.isHidden = true
+            self.calendarSeparator.isHidden = true
+            self.calendarWraper.isHidden = true
+        }
     }
 }
 
@@ -205,17 +303,21 @@ private extension TodoModalViewController {
         NSLayoutConstraint.activate([
             content.heightAnchor.constraint(equalToConstant: 0.5),
             separator.topAnchor.constraint(equalTo: content.topAnchor),
-            separator.leftAnchor.constraint(equalTo: content.leftAnchor, constant: 16),
-            separator.rightAnchor.constraint(equalTo: content.rightAnchor, constant: -16),
+            separator.leftAnchor.constraint(equalTo: content.leftAnchor, constant: Constants.padding),
+            separator.rightAnchor.constraint(equalTo: content.rightAnchor, constant: -Constants.padding),
             separator.heightAnchor.constraint(equalTo: content.heightAnchor)
         ])
         return content
     }
 
+    // MARK: - Настройка бара -
+
     func setupNavigationBarItems() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: disableButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
     }
+
+    // MARK: - Настройка View -
 
     func setupViews() {
         view.addSubview(scrollView)
@@ -243,10 +345,12 @@ private extension TodoModalViewController {
         }
     }
 
+    // MARK: - Настройка констреинтов -
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.padding),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.padding),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
@@ -256,20 +360,59 @@ private extension TodoModalViewController {
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
-            textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 120),
-            deadlineView.heightAnchor.constraint(greaterThanOrEqualToConstant: 54)
+            deadlineView.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.deadlineViewMinHeight)
         ])
+
+        textViewMinHeightConstraint = textView.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.textViewMinHeight)
+        textViewMinHeightConstraint?.isActive = true
     }
+
+    // MARK: - настройка обзерверов -
 
     func setupGesturesAndObservers() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification, object: nil
+        )
+    }
+
+    // MARK: - Установка значений -
+
+    func set(date: Date) {
+        calendarView.setDate(date, animated: false)
+    }
+
+    func set(text: String?) {
+        guard let text = text else {
+            textView.text = "Что нужно сделать?"
+            textView.textColor = UIColor.lightGray
+            return
+        }
+        textView.text = text
+        textView.textColor = Token.labelPrimary.color
+
+        saveButton.isEnabled = text.count != 0
+    }
+
+    func set(importancy: Importancy) {
+        importancyView.importancy = importancy
+    }
+
+    func set(deadline: Date?) {
+        deadlineView.deadline = deadline
     }
 }
+
 
 
 // MARK: - Action extension
@@ -305,48 +448,5 @@ extension TodoModalViewController {
 
     @objc func keyboardWillHide(notification: NSNotification) {
         scrollView.contentInset.bottom = 0
-    }
-}
-
-
-// MARK: - Internal
-
-extension TodoModalViewController {
-
-    func showCalendar(with date: Date) {
-        calendarView.setDate(date, animated: false)
-        calendarView.layer.opacity = 1
-        calendarSeparator.layer.opacity = 1
-        UIView.animate(withDuration: 0.25) {
-            self.calendarView.isHidden = false
-            self.calendarSeparator.isHidden = false
-            self.calendarWraper.isHidden = false
-        }
-    }
-
-    func dismissCalendar() {
-        calendarView.layer.opacity = 0
-        calendarSeparator.layer.opacity = 0
-        UIView.animate(withDuration: 0.25) {
-            self.calendarView.isHidden = true
-            self.calendarSeparator.isHidden = true
-            self.calendarWraper.isHidden = true
-        }
-    }
-
-    func set(date: Date) {
-        calendarView.setDate(date, animated: false)
-    }
-
-    func set(text: String) {
-        textView.text = text
-    }
-
-    func set(importancy: Importancy) {
-        importancyView.importancy = importancy
-    }
-
-    func set(deadline: Date?) {
-        deadlineView.deadline = deadline
     }
 }

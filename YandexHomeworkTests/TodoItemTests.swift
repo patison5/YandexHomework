@@ -20,8 +20,8 @@ class TodoItemTests: XCTestCase {
             importancy: .important,
             deadline: Date(),
             isFinished: false,
-            startDate: Date(),
-            finishDate: Date()
+            createdAt: Date(),
+            changedAt: Date()
         )
     }
 
@@ -36,7 +36,7 @@ class TodoItemTests: XCTestCase {
             "text": "TodoTest",
             "importancy": "important",
             "deadline": 1658917535.767741,
-            "startDate": 1658917535.767741,
+            "createdAt": 1658917535.767741,
             "isFinished": true
         ]
         
@@ -51,7 +51,7 @@ class TodoItemTests: XCTestCase {
         XCTAssertEqual(parsedItem.deadline, Date(timeIntervalSince1970: 1658917535.767741), "преобразование времени дедлайна задачи")
         XCTAssertEqual(parsedItem.isFinished, true, "преобразование статуса завершения задачи")
         XCTAssertEqual(
-            parsedItem.startDate,
+            parsedItem.createdAt,
             Date(timeIntervalSince1970: 1658917535.767741),
             "преобразование времени старта выполнения задачи"
         )

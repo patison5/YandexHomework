@@ -39,6 +39,24 @@ struct TodoItem: Equatable {
 
     /// Дата окончания задачи
     let changedAt: Date?
+
+    init(
+        id: String = UUID().uuidString,
+        text: String,
+        importancy: Importancy = .normal,
+        deadline: Date? = nil,
+        isFinished: Bool = false,
+        createdAt: Date = Date(),
+        changedAt: Date? = nil
+    ) {
+        self.id = id
+        self.text = text
+        self.importancy = importancy
+        self.deadline = deadline
+        self.isFinished = isFinished
+        self.createdAt = createdAt
+        self.changedAt = changedAt
+    }
 }
 
 extension TodoItem {
@@ -126,4 +144,22 @@ private extension TodoItem {
         }
         return data
     }
+}
+
+
+// MARK: - Public methods
+
+extension TodoItem {
+
+  func toggleComplete() -> TodoItem {
+      return TodoItem(
+        id: self.id,
+        text: self.text,
+        importancy: self.importancy,
+        deadline: self.deadline,
+        isFinished: !self.isFinished,
+        createdAt: self.createdAt,
+        changedAt: self.createdAt
+      )
+  }
 }
