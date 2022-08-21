@@ -4,9 +4,6 @@ included:
 disabled_rules:
   - line_length
   - function_parameter_count
-  - colon
-  - comma
-  - control_statement
 
 opt_in_rules:
   - empty_count
@@ -14,25 +11,9 @@ opt_in_rules:
   - force_unwrapping
   - identifier_name
   - function_body_length
-  - missing_docs
-
-excluded:
-  - Carthage
-  - Pods
 
 nesting:
   type_level: 4
 
 identifier_name:
   allowed_symbols: "_"
-  min_length:
-    error: 3
-  excluded:
-    - id
-    - URL
-    - GlobalAPIKey
-    - at
-
-file_length:
-  warning: 500
-  error: 600

@@ -10,6 +10,8 @@ import Foundation
 /// Описание вью-модели
 protocol HomeViewModelProtocol: AnyObject {
 
+    func viewDidLoad()
+
     // MARK: - Public properties
 
     /// Указатель на родительский контроллер
@@ -20,9 +22,6 @@ protocol HomeViewModelProtocol: AnyObject {
 
     // MARK: - Public methods
 
-    /// Загрузить данные
-    func viewDidLoad()
-
     /// Создать новую задачу на основе текста
     /// - Parameter text: Текст заголовка задачи
     func createTask(with text: String)
@@ -30,6 +29,9 @@ protocol HomeViewModelProtocol: AnyObject {
     /// Удалить задачу
     /// - Parameter indexPath: Позиция задачи в таблице
     func delete(at indexPath: IndexPath)
+
+    /// Скрыть/Отобразить выполненные таски
+    func toggleCompletedTasks()
 
     /// Переключить состояние задачи (выполнено/не выполнено)
     /// - Parameters:
@@ -40,9 +42,6 @@ protocol HomeViewModelProtocol: AnyObject {
     /// Открыть модальное окно
     /// - Parameter model: Модель с задачей
     func openModal(with model: TodoViewModel?)
-
-    /// Скрыть/Отобразить выполненные таски
-    func toggleCompletedTasks()
 
     // Настроить шапку
     func setupHeader()

@@ -64,18 +64,33 @@ class FileCacheTests: XCTestCase {
         // assert
         XCTAssertEqual(cache.items, [test2])
     }
-    
+
     func testReadWriteFiles() throws {
         // setup
-        let cache2: FileCache = FileCache(fileName: fileName)
+        let cache1 = FileCache(fileName: fileName)
+        let cache2 = FileCache(fileName: fileName)
 
         // act
-        try cache.add(item: test1)
-        try cache.add(item: test2)
-//        try cache2.loadItems(from: fileName)
+        try cache1.add(item: test1)
+        try cache1.add(item: test2)
 
-        // assert
-        XCTAssertEqual(cache.items, cache2.items)
+        try cache2.add(item: test1)
+        try cache2.add(item: test2)
+        cache2.save(to: fileName, completion: { res1 in
+            switch res1 {
+            case .failure(_):
+                XCTFail("Не удалось записать в файл")
+            case .success(_):
+                cache2.load(from: self.fileName) { res2 in
+                    switch res2 {
+                    case let .success(items):
+                        XCTAssertEqual(cache1.items, items)
+                    case .failure(_):
+                        XCTFail("Не удалось прочитать из файла")
+                    }
+                }
+            }
+        })
     }
 
     func testAddPerfomance() throws {

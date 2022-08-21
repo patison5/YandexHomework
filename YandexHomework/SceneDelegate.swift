@@ -22,8 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
 
         DDLog.add(DDOSLogger.sharedInstance)
-        dynamicLogLevel = .info
-        testLogger()
+        dynamicLogLevel = .verbose
+//        testLogger()
     }
 }
 

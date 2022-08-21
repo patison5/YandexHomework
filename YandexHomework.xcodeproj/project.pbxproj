@@ -18,13 +18,15 @@
 		D6094D872899B8B300A65EAD /* RadioButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D862899B8B300A65EAD /* RadioButtonView.swift */; };
 		D6094D8A289AD38900A65EAD /* TaskCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D89289AD38900A65EAD /* TaskCellHeader.swift */; };
 		D628B6EA28A473C800B82570 /* Pods_YandexHomework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902674455B43D48C37BA5731 /* Pods_YandexHomework.framework */; };
+		D628B71E28A69BB800B82570 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */; };
+		D628B72028A69C8B00B82570 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71F28A69C8B00B82570 /* MockNetworkService.swift */; };
 		D6445889289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */; };
 		D64DC7EE2891954A003EAE48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC7ED2891954A003EAE48 /* AppDelegate.swift */; };
 		D64DC7F02891954A003EAE48 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC7EF2891954A003EAE48 /* SceneDelegate.swift */; };
 		D64DC7F72891954C003EAE48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D64DC7F62891954C003EAE48 /* Assets.xcassets */; };
 		D64DC80F2891954D003EAE48 /* YandexHomeworkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC80E2891954D003EAE48 /* YandexHomeworkUITests.swift */; };
 		D64DC8112891954D003EAE48 /* YandexHomeworkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC8102891954D003EAE48 /* YandexHomeworkUITestsLaunchTests.swift */; };
-		D64DC8222891975F003EAE48 /* FileCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC8212891975F003EAE48 /* FileCacheProtocol.swift */; };
+		D64DC8222891975F003EAE48 /* FileCacheServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC8212891975F003EAE48 /* FileCacheServiceProtocol.swift */; };
 		D64DC82428919771003EAE48 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC82328919771003EAE48 /* FileCache.swift */; };
 		D64DC8262891978C003EAE48 /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC8252891978C003EAE48 /* FileCacheError.swift */; };
 		D64DC828289197A2003EAE48 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC827289197A2003EAE48 /* TodoItem.swift */; };
@@ -73,6 +75,8 @@
 		D6094D862899B8B300A65EAD /* RadioButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonView.swift; sourceTree = "<group>"; };
 		D6094D89289AD38900A65EAD /* TaskCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellHeader.swift; sourceTree = "<group>"; };
 		D628B6ED28A473F300B82570 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
+		D628B71F28A69C8B00B82570 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
 		D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
 		D64DC7EA2891954A003EAE48 /* YandexHomework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YandexHomework.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D64DC7ED2891954A003EAE48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,7 +87,7 @@
 		D64DC80A2891954D003EAE48 /* YandexHomeworkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YandexHomeworkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D64DC80E2891954D003EAE48 /* YandexHomeworkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexHomeworkUITests.swift; sourceTree = "<group>"; };
 		D64DC8102891954D003EAE48 /* YandexHomeworkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexHomeworkUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		D64DC8212891975F003EAE48 /* FileCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheProtocol.swift; sourceTree = "<group>"; };
+		D64DC8212891975F003EAE48 /* FileCacheServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheServiceProtocol.swift; sourceTree = "<group>"; };
 		D64DC82328919771003EAE48 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		D64DC8252891978C003EAE48 /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
 		D64DC827289197A2003EAE48 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
@@ -177,6 +181,15 @@
 			name = Home;
 			sourceTree = "<group>";
 		};
+		D628B71A28A69B8B00B82570 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */,
+				D628B71F28A69C8B00B82570 /* MockNetworkService.swift */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 		D646CDCD28A1D38000721960 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +260,7 @@
 		D64DC81D2891970D003EAE48 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D628B71A28A69B8B00B82570 /* Network */,
 				D64DC82028919723003EAE48 /* FileCache */,
 			);
 			name = Services;
@@ -273,7 +287,7 @@
 		D64DC82028919723003EAE48 /* FileCache */ = {
 			isa = PBXGroup;
 			children = (
-				D64DC8212891975F003EAE48 /* FileCacheProtocol.swift */,
+				D64DC8212891975F003EAE48 /* FileCacheServiceProtocol.swift */,
 				D64DC82328919771003EAE48 /* FileCache.swift */,
 				D64DC8252891978C003EAE48 /* FileCacheError.swift */,
 			);
@@ -575,10 +589,11 @@
 				D6094D7F28999FBD00A65EAD /* HomeTableView.swift in Sources */,
 				D6F4C5A1289BCD82007FF13A /* HomeViewModel.swift in Sources */,
 				D64DC828289197A2003EAE48 /* TodoItem.swift in Sources */,
-				D64DC8222891975F003EAE48 /* FileCacheProtocol.swift in Sources */,
+				D64DC8222891975F003EAE48 /* FileCacheServiceProtocol.swift in Sources */,
 				D64DC8422893F2C7003EAE48 /* Date+Extension.swift in Sources */,
 				D6094D832899B02500A65EAD /* TaskCell.swift in Sources */,
 				D64DC82E2891CBFB003EAE48 /* TodoModalViewController.swift in Sources */,
+				D628B72028A69C8B00B82570 /* MockNetworkService.swift in Sources */,
 				D6F4C5A5289C4FF1007FF13A /* TodoViewState.swift in Sources */,
 				D6094D8A289AD38900A65EAD /* TaskCellHeader.swift in Sources */,
 				D64DC83D28930A6D003EAE48 /* DeadlineView.swift in Sources */,
@@ -594,6 +609,7 @@
 				D64DC82428919771003EAE48 /* FileCache.swift in Sources */,
 				D6094D742896EF4600A65EAD /* TodoViewModel.swift in Sources */,
 				D6094D872899B8B300A65EAD /* RadioButtonView.swift in Sources */,
+				D628B71E28A69BB800B82570 /* NetworkServiceProtocol.swift in Sources */,
 				D64DC7F02891954A003EAE48 /* SceneDelegate.swift in Sources */,
 				D6F4C5A3289BD1F2007FF13A /* HomeViewModelProtocol.swift in Sources */,
 			);
