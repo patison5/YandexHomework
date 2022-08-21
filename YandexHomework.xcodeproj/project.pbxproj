@@ -7,9 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D6094D742896EF4600A65EAD /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D732896EF4600A65EAD /* TodoViewModel.swift */; };
+		D6094D762897059E00A65EAD /* TodoViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D752897059E00A65EAD /* TodoViewModelProtocol.swift */; };
+		D6094D7B2897FCB200A65EAD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D7A2897FCB100A65EAD /* HomeViewController.swift */; };
+		D6094D7F28999FBD00A65EAD /* HomeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D7E28999FBC00A65EAD /* HomeTableView.swift */; };
+		D6094D812899AD3F00A65EAD /* IconWithDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D802899AD3F00A65EAD /* IconWithDateView.swift */; };
+		D6094D832899B02500A65EAD /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D822899B02500A65EAD /* TaskCell.swift */; };
+		D6094D872899B8B300A65EAD /* RadioButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D862899B8B300A65EAD /* RadioButtonView.swift */; };
+		D6094D8A289AD38900A65EAD /* TaskCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6094D89289AD38900A65EAD /* TaskCellHeader.swift */; };
+		D6445889289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */; };
 		D64DC7EE2891954A003EAE48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC7ED2891954A003EAE48 /* AppDelegate.swift */; };
 		D64DC7F02891954A003EAE48 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC7EF2891954A003EAE48 /* SceneDelegate.swift */; };
-		D64DC7F22891954A003EAE48 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC7F12891954A003EAE48 /* ViewController.swift */; };
 		D64DC7F72891954C003EAE48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D64DC7F62891954C003EAE48 /* Assets.xcassets */; };
 		D64DC80F2891954D003EAE48 /* YandexHomeworkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC80E2891954D003EAE48 /* YandexHomeworkUITests.swift */; };
 		D64DC8112891954D003EAE48 /* YandexHomeworkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC8102891954D003EAE48 /* YandexHomeworkUITestsLaunchTests.swift */; };
@@ -19,14 +27,17 @@
 		D64DC828289197A2003EAE48 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC827289197A2003EAE48 /* TodoItem.swift */; };
 		D64DC82A289197B9003EAE48 /* FileCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC829289197B9003EAE48 /* FileCacheTests.swift */; };
 		D64DC82C289197DE003EAE48 /* TodoItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC82B289197DE003EAE48 /* TodoItemTests.swift */; };
-		D6F4C58F289BBD50007FF13A /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C58E289BBD50007FF13A /* Date+Extension.swift */; };
-		D6F4C591289BBD64007FF13A /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C590289BBD64007FF13A /* Token.swift */; };
-		D6F4C593289BBD6F007FF13A /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C592289BBD6F007FF13A /* Icon.swift */; };
-		D6F4C595289BBD8E007FF13A /* TodoModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C594289BBD8E007FF13A /* TodoModalViewController.swift */; };
-		D6F4C598289BBDAE007FF13A /* TodoViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C597289BBDAE007FF13A /* TodoViewModelProtocol.swift */; };
-		D6F4C59A289BBDB6007FF13A /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C599289BBDB6007FF13A /* TodoViewModel.swift */; };
-		D6F4C59C289BBDC3007FF13A /* ImportancyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C59B289BBDC3007FF13A /* ImportancyView.swift */; };
-		D6F4C59E289BBDD2007FF13A /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C59D289BBDD2007FF13A /* DeadlineView.swift */; };
+		D64DC82E2891CBFB003EAE48 /* TodoModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC82D2891CBFB003EAE48 /* TodoModalViewController.swift */; };
+		D64DC83028925C01003EAE48 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC82F28925C01003EAE48 /* Token.swift */; };
+		D64DC83928927A97003EAE48 /* ImportancyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC83828927A97003EAE48 /* ImportancyView.swift */; };
+		D64DC83B2892C440003EAE48 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC83A2892C440003EAE48 /* Icon.swift */; };
+		D64DC83D28930A6D003EAE48 /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC83C28930A6D003EAE48 /* DeadlineView.swift */; };
+		D64DC8422893F2C7003EAE48 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC8412893F2C6003EAE48 /* Date+Extension.swift */; };
+		D6F4C5A1289BCD82007FF13A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A0289BCD82007FF13A /* HomeViewModel.swift */; };
+		D6F4C5A3289BD1F2007FF13A /* HomeViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A2289BD1F2007FF13A /* HomeViewModelProtocol.swift */; };
+		D6F4C5A5289C4FF1007FF13A /* TodoViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A4289C4FF1007FF13A /* TodoViewState.swift */; };
+		D6F4C5A7289D4871007FF13A /* HomeViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A6289D4871007FF13A /* HomeViewControllerProtocol.swift */; };
+		D6F4C5A9289DB21F007FF13A /* TaskInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C5A8289DB21F007FF13A /* TaskInputCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,10 +58,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D6094D732896EF4600A65EAD /* TodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
+		D6094D752897059E00A65EAD /* TodoViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewModelProtocol.swift; sourceTree = "<group>"; };
+		D6094D7A2897FCB100A65EAD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D6094D7E28999FBC00A65EAD /* HomeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableView.swift; sourceTree = "<group>"; };
+		D6094D802899AD3F00A65EAD /* IconWithDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWithDateView.swift; sourceTree = "<group>"; };
+		D6094D822899B02500A65EAD /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		D6094D862899B8B300A65EAD /* RadioButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonView.swift; sourceTree = "<group>"; };
+		D6094D89289AD38900A65EAD /* TaskCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellHeader.swift; sourceTree = "<group>"; };
+		D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
 		D64DC7EA2891954A003EAE48 /* YandexHomework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YandexHomework.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D64DC7ED2891954A003EAE48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D64DC7EF2891954A003EAE48 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D64DC7F12891954A003EAE48 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D64DC7F62891954C003EAE48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D64DC7FB2891954C003EAE48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D64DC8002891954D003EAE48 /* YandexHomeworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YandexHomeworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,14 +82,17 @@
 		D64DC827289197A2003EAE48 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		D64DC829289197B9003EAE48 /* FileCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheTests.swift; sourceTree = "<group>"; };
 		D64DC82B289197DE003EAE48 /* TodoItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemTests.swift; sourceTree = "<group>"; };
-		D6F4C58E289BBD50007FF13A /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		D6F4C590289BBD64007FF13A /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		D6F4C592289BBD6F007FF13A /* Icon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
-		D6F4C594289BBD8E007FF13A /* TodoModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoModalViewController.swift; sourceTree = "<group>"; };
-		D6F4C597289BBDAE007FF13A /* TodoViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoViewModelProtocol.swift; sourceTree = "<group>"; };
-		D6F4C599289BBDB6007FF13A /* TodoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
-		D6F4C59B289BBDC3007FF13A /* ImportancyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportancyView.swift; sourceTree = "<group>"; };
-		D6F4C59D289BBDD2007FF13A /* DeadlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
+		D64DC82D2891CBFB003EAE48 /* TodoModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoModalViewController.swift; sourceTree = "<group>"; };
+		D64DC82F28925C01003EAE48 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		D64DC83828927A97003EAE48 /* ImportancyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportancyView.swift; sourceTree = "<group>"; };
+		D64DC83A2892C440003EAE48 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
+		D64DC83C28930A6D003EAE48 /* DeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
+		D64DC8412893F2C6003EAE48 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		D6F4C5A0289BCD82007FF13A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		D6F4C5A2289BD1F2007FF13A /* HomeViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelProtocol.swift; sourceTree = "<group>"; };
+		D6F4C5A4289C4FF1007FF13A /* TodoViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewState.swift; sourceTree = "<group>"; };
+		D6F4C5A6289D4871007FF13A /* HomeViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerProtocol.swift; sourceTree = "<group>"; };
+		D6F4C5A8289DB21F007FF13A /* TaskInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +120,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D6094D77289705AE00A65EAD /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D6094D752897059E00A65EAD /* TodoViewModelProtocol.swift */,
+				D6094D732896EF4600A65EAD /* TodoViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		D6094D88289A704300A65EAD /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D6F4C5AA289DB3AF007FF13A /* Cells */,
+				D6F4C59F289BCD71007FF13A /* ViewModel */,
+				D6F4C5A6289D4871007FF13A /* HomeViewControllerProtocol.swift */,
+				D6094D7A2897FCB100A65EAD /* HomeViewController.swift */,
+				D6094D7E28999FBC00A65EAD /* HomeTableView.swift */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		D646CDCD28A1D38000721960 /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				D6094D77289705AE00A65EAD /* ViewModel */,
+				D64DC82D2891CBFB003EAE48 /* TodoModalViewController.swift */,
+				D64DC83828927A97003EAE48 /* ImportancyView.swift */,
+				D64DC83C28930A6D003EAE48 /* DeadlineView.swift */,
+			);
+			name = Modal;
+			sourceTree = "<group>";
+		};
 		D64DC7E128919549003EAE48 = {
 			isa = PBXGroup;
 			children = (
@@ -121,8 +175,8 @@
 		D64DC7EC2891954A003EAE48 /* YandexHomework */ = {
 			isa = PBXGroup;
 			children = (
-				D6F4C58D289BBD2F007FF13A /* Design System */,
-				D6F4C58C289BBD28007FF13A /* Extensions */,
+				D64DC8402893F2B6003EAE48 /* Extensions */,
+				D64DC83128926412003EAE48 /* Design System */,
 				D64DC81F2891971D003EAE48 /* View */,
 				D64DC81E28919714003EAE48 /* Models */,
 				D64DC81D2891970D003EAE48 /* Services */,
@@ -164,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				D64DC827289197A2003EAE48 /* TodoItem.swift */,
+				D6F4C5A4289C4FF1007FF13A /* TodoViewState.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -171,11 +226,8 @@
 		D64DC81F2891971D003EAE48 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D6F4C596289BBD98007FF13A /* ViewModel */,
-				D6F4C594289BBD8E007FF13A /* TodoModalViewController.swift */,
-				D64DC7F12891954A003EAE48 /* ViewController.swift */,
-				D6F4C59B289BBDC3007FF13A /* ImportancyView.swift */,
-				D6F4C59D289BBDD2007FF13A /* DeadlineView.swift */,
+				D6094D88289A704300A65EAD /* Home */,
+				D646CDCD28A1D38000721960 /* Modal */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -190,30 +242,43 @@
 			name = FileCache;
 			sourceTree = "<group>";
 		};
-		D6F4C58C289BBD28007FF13A /* Extensions */ = {
+		D64DC83128926412003EAE48 /* Design System */ = {
 			isa = PBXGroup;
 			children = (
-				D6F4C58E289BBD50007FF13A /* Date+Extension.swift */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
-		D6F4C58D289BBD2F007FF13A /* Design System */ = {
-			isa = PBXGroup;
-			children = (
-				D6F4C592289BBD6F007FF13A /* Icon.swift */,
-				D6F4C590289BBD64007FF13A /* Token.swift */,
+				D64DC82F28925C01003EAE48 /* Token.swift */,
+				D64DC83A2892C440003EAE48 /* Icon.swift */,
+				D6094D802899AD3F00A65EAD /* IconWithDateView.swift */,
+				D6094D862899B8B300A65EAD /* RadioButtonView.swift */,
 			);
 			name = "Design System";
 			sourceTree = "<group>";
 		};
-		D6F4C596289BBD98007FF13A /* ViewModel */ = {
+		D64DC8402893F2B6003EAE48 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D6F4C597289BBDAE007FF13A /* TodoViewModelProtocol.swift */,
-				D6F4C599289BBDB6007FF13A /* TodoViewModel.swift */,
+				D64DC8412893F2C6003EAE48 /* Date+Extension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		D6F4C59F289BCD71007FF13A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D6F4C5A2289BD1F2007FF13A /* HomeViewModelProtocol.swift */,
+				D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */,
+				D6F4C5A0289BCD82007FF13A /* HomeViewModel.swift */,
 			);
 			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		D6F4C5AA289DB3AF007FF13A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D6094D822899B02500A65EAD /* TaskCell.swift */,
+				D6F4C5A8289DB21F007FF13A /* TaskInputCell.swift */,
+				D6094D89289AD38900A65EAD /* TaskCellHeader.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,21 +410,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6F4C591289BBD64007FF13A /* Token.swift in Sources */,
+				D6094D7F28999FBD00A65EAD /* HomeTableView.swift in Sources */,
+				D6F4C5A1289BCD82007FF13A /* HomeViewModel.swift in Sources */,
 				D64DC828289197A2003EAE48 /* TodoItem.swift in Sources */,
 				D64DC8222891975F003EAE48 /* FileCacheProtocol.swift in Sources */,
-				D64DC7F22891954A003EAE48 /* ViewController.swift in Sources */,
-				D6F4C595289BBD8E007FF13A /* TodoModalViewController.swift in Sources */,
+				D64DC8422893F2C7003EAE48 /* Date+Extension.swift in Sources */,
+				D6094D832899B02500A65EAD /* TaskCell.swift in Sources */,
+				D64DC82E2891CBFB003EAE48 /* TodoModalViewController.swift in Sources */,
+				D64DC83B2892C440003EAE48 /* Icon.swift in Sources */,
+				D64DC83028925C01003EAE48 /* Token.swift in Sources */,
+				D6F4C5A5289C4FF1007FF13A /* TodoViewState.swift in Sources */,
+				D6094D8A289AD38900A65EAD /* TaskCellHeader.swift in Sources */,
+				D64DC83D28930A6D003EAE48 /* DeadlineView.swift in Sources */,
+				D6445889289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift in Sources */,
+				D6094D812899AD3F00A65EAD /* IconWithDateView.swift in Sources */,
+				D6F4C5A7289D4871007FF13A /* HomeViewControllerProtocol.swift in Sources */,
+				D6094D7B2897FCB200A65EAD /* HomeViewController.swift in Sources */,
+				D6F4C5A9289DB21F007FF13A /* TaskInputCell.swift in Sources */,
 				D64DC7EE2891954A003EAE48 /* AppDelegate.swift in Sources */,
-				D6F4C59E289BBDD2007FF13A /* DeadlineView.swift in Sources */,
-				D6F4C59A289BBDB6007FF13A /* TodoViewModel.swift in Sources */,
 				D64DC8262891978C003EAE48 /* FileCacheError.swift in Sources */,
-				D6F4C58F289BBD50007FF13A /* Date+Extension.swift in Sources */,
+				D6094D762897059E00A65EAD /* TodoViewModelProtocol.swift in Sources */,
+				D64DC83928927A97003EAE48 /* ImportancyView.swift in Sources */,
 				D64DC82428919771003EAE48 /* FileCache.swift in Sources */,
-				D6F4C593289BBD6F007FF13A /* Icon.swift in Sources */,
-				D6F4C598289BBDAE007FF13A /* TodoViewModelProtocol.swift in Sources */,
-				D6F4C59C289BBDC3007FF13A /* ImportancyView.swift in Sources */,
+				D6094D742896EF4600A65EAD /* TodoViewModel.swift in Sources */,
+				D6094D872899B8B300A65EAD /* RadioButtonView.swift in Sources */,
 				D64DC7F02891954A003EAE48 /* SceneDelegate.swift in Sources */,
+				D6F4C5A3289BD1F2007FF13A /* HomeViewModelProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

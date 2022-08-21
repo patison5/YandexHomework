@@ -14,6 +14,7 @@ enum Token: String {
     case gray = "gray"
     case light = "light"
     case white = "white"
+    case grayLight = "grayLight"
 
     case backIOSPrimary = "backIOSPrimary"
     case backPrimary = "backPrimary"

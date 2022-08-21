@@ -7,42 +7,59 @@
 
 import Foundation
 
-final class TodoViewModel {
+//protocol TodoCellProtocol: AnyObject {
+//
+//    func configure(with state: TodoViewState)
+//}
 
+protocol TodoModalProtocol: AnyObject {
+
+    /// Настроить отображение модального окна
+    /// - Parameter state: Задача
+    func configure(with state: TodoViewState)
+
+    /// Закрыть модальное окно
+    /// - Parameter animated: Необходимость в анимации
+    func closeModal(animated: Bool)
+
+    /// Показать календарь
+    func showCalendar()
+
+    /// Спраятать календарь
+    func dismissCalendar()
+
+    /// Установить дедлайн
+    /// - Parameter date: Дата
+    func setupDeadline(with date: Date)
+}
+
+final class TodoViewModel {
 
     // MARK: - Public properties
 
-    weak var view: TodoModalViewController?
+    //    weak var cell: TodoCellProtocol?
 
+    weak var modal: TodoModalProtocol?
 
-    // MARK: - Private properties
+    weak var delegate: HomeViewModelDelegate?
 
-    private let fileName = "TodoModelSingle.json"
+    var item: TodoItem
 
-    private lazy var fileCache: FileCacheProtocol = FileCache(fileName: fileName)
+    lazy var state = TodoViewState(item: item) {
+        didSet {
+            modal?.configure(with: state)
+        }
+    }
 
 
     // MARK: - private properties
 
-    private var id: String = UUID().uuidString
 
-    private var text: String = "А потом вкусно позавтракать" {
-        didSet { view?.set(text: text) }
+    // MARK: - Init
+
+    init(item: TodoItem) {
+        self.item = item
     }
-
-    private var importancy: Importancy = .normal {
-        didSet { view?.set(importancy: importancy) }
-    }
-
-    private var deadline: Date? {
-        didSet { view?.set(deadline: deadline) }
-    }
-
-    private var isFinished: Bool = false
-
-    private var startDate: Date = Date()
-
-    private var changedAt: Date?
 }
 
 
@@ -50,79 +67,35 @@ final class TodoViewModel {
 
 extension TodoViewModel: TodoViewModelProtocol {
 
-    func deleteButtonDidTap() {
-        try? fileCache.removeItem(by: id)
-        try? fileCache.saveItems(to: fileName)
-        view?.dismiss(animated: true)
-    }
-
-    func importancyDidChange(importancy: Importancy) {
-        self.importancy = importancy
-        view?.isSaveButtonEnabled = true
-    }
-
-    func viewDidLoad() {
-        getData()
-    }
-
     func deadlineDidChange(isEnabled: Bool) {
-        if isEnabled {
-            self.deadline = deadline ?? Date().dayAfter
-            view?.showCalendar(with: deadline ?? Date().dayAfter)
-        } else {
-            self.deadline = nil
-            view?.dismissCalendar()
-        }
-        view?.isSaveButtonEnabled = true
+        state.deadline = isEnabled ? state.deadline ?? Date().dayAfter : nil
+        isEnabled ? modal?.showCalendar() : modal?.dismissCalendar()
     }
 
     func deadLineDidClick() {
-        self.deadline = deadline ?? Date().dayAfter
-        view?.showCalendar(with: deadline ?? Date().dayAfter)
-        view?.isSaveButtonEnabled = true
+        modal?.setupDeadline(with: state.deadline ?? Date().dayAfter)
+        modal?.showCalendar()
     }
 
     func textDidChange(text: String) {
-        self.text = text
-        view?.isSaveButtonEnabled = true
+        state.text = text
+    }
+
+    func importancyDidChange(importancy: Importancy) {
+        state.importancy = importancy
     }
 
     func datePickerChanged(date: Date) {
-        self.deadline = date
-        view?.isSaveButtonEnabled = true
+        state.deadline = date
     }
 
     func saveButtonDidTap() {
-        self.changedAt = Date()
-        saveData()
-        view?.dismiss(animated: true)
-    }
-}
-
-
-// MARK: - Private methods
-
-private extension TodoViewModel {
-
-    private func saveData() {
-        let newItem: TodoItem = TodoItem(id: id, text: text, importancy: importancy, deadline: deadline, isFinished: isFinished, createdAt: startDate, changedAt: changedAt)
-
-        try? fileCache.change(item: newItem)
-        try? fileCache.saveItems(to: fileName)
+        modal?.closeModal(animated: true)
+        delegate?.didUpdate(model: self, state: state)
     }
 
-    func getData() {
-        try? fileCache.loadItems(from: fileName)
-
-        let todo: TodoItem? = fileCache.get(by: "TodoItemModal")
-        id = todo?.id ?? "TodoItemModal"
-        text = todo?.text ?? text
-        importancy = todo?.importancy ?? importancy
-        deadline = todo?.deadline
-        isFinished = todo?.isFinished ?? isFinished
-        startDate = todo?.createdAt ?? startDate
-        changedAt = todo?.changedAt
-
-        saveData()
+    func deleteButtonDidTap() {
+        modal?.closeModal(animated: true)
+        delegate?.didDelete(model: self)
     }
 }

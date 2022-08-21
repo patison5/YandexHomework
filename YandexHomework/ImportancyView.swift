@@ -34,11 +34,18 @@ final class ImportancyView: UIView {
 
     // MARK: - Private properties
 
+    private class Constants {
+        static let padding: CGFloat = 16.0
+        static let segmentMargin: CGFloat = 9
+        static let segmentHeight: CGFloat = 36
+        static let fonsize: CGFloat = 17
+    }
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Важность"
         label.numberOfLines = 1
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: Constants.fonsize)
         label.textColor = Token.labelPrimary.color
         return label
     }()
@@ -70,6 +77,7 @@ final class ImportancyView: UIView {
     }
 }
 
+
 // MARK: - Private methods
 
 private extension ImportancyView {
@@ -84,14 +92,14 @@ private extension ImportancyView {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
 
-            segmentedControl.topAnchor.constraint(equalTo: topAnchor, constant: 9),
-            segmentedControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            segmentedControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -9),
+            segmentedControl.topAnchor.constraint(equalTo: topAnchor, constant: Constants.segmentMargin),
+            segmentedControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
+            segmentedControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.segmentMargin),
             segmentedControl.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 36)
+            segmentedControl.heightAnchor.constraint(equalToConstant: Constants.segmentHeight)
         ])
     }
 }

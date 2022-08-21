@@ -9,7 +9,6 @@ import Foundation
 
 final class FileCache {
 
-
     // MARK: - FileCacheProtocol
 
     var items: [TodoItem] = []
@@ -37,9 +36,9 @@ extension FileCache: FileCacheProtocol {
     }
 
     func change(item: TodoItem) throws {
-        print(item)
-        try removeItem(by: item.id)
-        try add(item: item)
+        guard let index = items.firstIndex(where: { $0.id == item.id }) else { return }
+        items.remove(at: index)
+        items.insert(item, at: index)
     }
 
     func add(item: TodoItem) throws {
@@ -71,6 +70,8 @@ extension FileCache: FileCacheProtocol {
         }
 
         let fileURL = dir.appendingPathComponent(file)
+
+        print(fileURL)
 
         let text = try String(contentsOf: fileURL, encoding: .utf8)
         guard let data = text.data(using: .utf8) else {

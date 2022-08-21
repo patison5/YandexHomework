@@ -9,9 +9,6 @@ import UIKit
 
 protocol TodoViewModelProtocol {
 
-    /// ViewDidLoad
-    func viewDidLoad()
-
     /// Отследить состояние  switch-кнопки
     /// - Parameter isEnabled: Состояние
     func deadlineDidChange(isEnabled: Bool)
