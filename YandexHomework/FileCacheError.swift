@@ -17,4 +17,3 @@ enum FileCacheError: Error {
 enum HomeViewModelError: Error {
     case suchIdDoesntExist
 }
-

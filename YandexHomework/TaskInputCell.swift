@@ -6,20 +6,18 @@
 //
 
 import UIKit
+import DesignSystem
 
 /// Ячейка для таблицы с задачами
 final class TaskInputCell: UITableViewCell {
-
 
     // MARK: - Public properties
 
     var action: ((String) -> Void)?
 
-
     // MARK: - Static properties
 
     static let identifier: String = "TaskInputCell"
-
 
     // MARK: - Private properties
 
@@ -28,7 +26,6 @@ final class TaskInputCell: UITableViewCell {
         view.placeholder = "Новое"
         return view
     }()
-
 
     // MARK: - Init
 
@@ -58,7 +55,7 @@ private extension TaskInputCell {
             textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 54),
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
 }

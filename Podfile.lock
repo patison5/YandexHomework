@@ -1,0 +1,34 @@
+PODS:
+  - CocoaLumberjack/Core (3.7.4)
+  - CocoaLumberjack/Swift (3.7.4):
+    - CocoaLumberjack/Core
+  - DesignSystem (0.1.0)
+  - SwiftLint (0.48.0)
+
+DEPENDENCIES:
+  - CocoaLumberjack/Swift
+  - DesignSystem (from `https://github.com/patison5/DesignSystem.git`)
+  - SwiftLint
+
+SPEC REPOS:
+  trunk:
+    - CocoaLumberjack
+    - SwiftLint
+
+EXTERNAL SOURCES:
+  DesignSystem:
+    :git: https://github.com/patison5/DesignSystem.git
+
+CHECKOUT OPTIONS:
+  DesignSystem:
+    :commit: e995046ec3c9a1d09de25ac92c9821250aa32551
+    :git: https://github.com/patison5/DesignSystem.git
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  DesignSystem: 74e93796790ab0990cf4e7cb488bce4325cc8c85
+  SwiftLint: 284cea64b6187c5d6bd83e9a548a64104d546447
+
+PODFILE CHECKSUM: c97d96c235ae1376dc5085508c46a3435629dcea
+
+COCOAPODS: 1.11.3

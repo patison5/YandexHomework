@@ -10,7 +10,6 @@ import Foundation
 /// Описание вью-модели
 protocol HomeViewModelProtocol: AnyObject {
 
-
     // MARK: - Public properties
 
     /// Указатель на родительский контроллер
@@ -18,7 +17,6 @@ protocol HomeViewModelProtocol: AnyObject {
 
     /// Набор задач
     var data: [TodoViewModel] { get set }
-
 
     // MARK: - Public methods
 

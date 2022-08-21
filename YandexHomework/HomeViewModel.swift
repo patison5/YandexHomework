@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class HomeViewModel {
 
     // MARK: - Public properties
@@ -28,7 +27,6 @@ final class HomeViewModel {
 
     private lazy var fileCache: FileCacheProtocol = FileCache(fileName: fileName)
 }
-
 
 // MARK: - HomeViewModelDelegate
 
@@ -66,7 +64,6 @@ extension HomeViewModel: HomeViewModelDelegate {
         view?.reloadData()
     }
 }
-
 
 // MARK: - HomeViewModelProtocol
 
@@ -122,7 +119,7 @@ extension HomeViewModel: HomeViewModelProtocol {
         try? fileCache.loadItems(from: fileName)
 
         // Временная фигня для дебага
-        if (fileCache.items.count == 0) {
+        if fileCache.items.isEmpty {
             let startArray = getStartArray()
             startArray.forEach {
                 try? fileCache.add(item: $0)
@@ -182,12 +179,11 @@ extension HomeViewModel: HomeViewModelProtocol {
     }
 }
 
-
 // MARK: - Private methods
 
 private extension HomeViewModel {
 
-    func getStartArray() -> [TodoItem]{
+    func getStartArray() -> [TodoItem] {
         return [
             TodoItem(
                 text: "Отдохнуть от проги🙄",

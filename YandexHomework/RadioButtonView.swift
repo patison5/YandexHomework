@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 final class RadioButtonModel {
 
@@ -30,8 +31,8 @@ extension RadioButtonModel {
 
     /// Состояние кнопки
     enum Status {
-        case on
-        case off
+        case active
+        case inActive
         case highPriority
     }
 }
@@ -52,7 +53,7 @@ final class RadioButtonView: UIButton {
         setupViews()
         setupConstraints()
 
-        addTarget(self, action: #selector(radioButtonDidClicked), for: .touchUpInside)
+        addTarget(self, action: #selector(radioButtonDidClick), for: .touchUpInside)
     }
 
     required init(coder: NSCoder) {
@@ -63,9 +64,9 @@ final class RadioButtonView: UIButton {
         self.model = model
 
         switch model.status {
-        case .on:
+        case .active:
             iconView.image = Icon.iconStatusOn.image
-        case .off:
+        case .inActive:
             iconView.image = Icon.iconStatusOff.image
             iconView.tintColor = Token.labelTertiary.color
             iconView.image = iconView.image?.withRenderingMode(.alwaysTemplate)
@@ -92,12 +93,11 @@ private extension RadioButtonView {
     }
 }
 
-
 // MARK: - Actions
 
 extension RadioButtonView {
 
-    @objc func radioButtonDidClicked(sender: UIButton) {
+    @objc func radioButtonDidClick(sender: UIButton) {
         model?.action?()
     }
 }

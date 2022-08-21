@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 /// Вью важности дела
 final class ImportancyView: UIView {
@@ -31,7 +32,6 @@ final class ImportancyView: UIView {
         }
     }
 
-
     // MARK: - Private properties
 
     private class Constants {
@@ -51,17 +51,17 @@ final class ImportancyView: UIView {
     }()
 
     private lazy var segmentedControl: UISegmentedControl = {
-        let sc = UISegmentedControl()
-        sc.insertSegment(with: Icon.iconArrowDown20.image, at: 0, animated: false)
-        sc.insertSegment(withTitle: "нет", at: 1, animated: false)
-        sc.insertSegment(withTitle: "‼️", at: 2, animated: false)
-        sc.selectedSegmentIndex = 1
-        sc.backgroundColor = Token.supportOverlay.color
-        sc.selectedSegmentTintColor = Token.backElevated.color
+        let segment = UISegmentedControl()
+        segment.insertSegment(with: Icon.iconArrowDown20.image, at: 0, animated: false)
+        segment.insertSegment(withTitle: "нет", at: 1, animated: false)
+        segment.insertSegment(withTitle: "‼️", at: 2, animated: false)
+        segment.selectedSegmentIndex = 1
+        segment.backgroundColor = Token.supportOverlay.color
+        segment.selectedSegmentTintColor = Token.backElevated.color
 
-        sc.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
-        sc.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .touchUpInside)
-        return sc
+        segment.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
+        segment.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .touchUpInside)
+        return segment
     }()
 
     // MARK: - Init
@@ -76,7 +76,6 @@ final class ImportancyView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 
 // MARK: - Private methods
 
@@ -103,7 +102,6 @@ private extension ImportancyView {
         ])
     }
 }
-
 
 // MARK: - Action extension
 

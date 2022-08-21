@@ -16,7 +16,6 @@ enum Importancy: String {
 
 struct TodoItem: Equatable {
 
-
     // MARK: - Public properties
 
     /// Уникальный идентификатор
@@ -100,11 +99,7 @@ extension TodoItem {
     }
 
     /// Генерация json из объекта
-    var json: Any {
-        get {
-            jsonString as Any
-        }
-    }
+    var json: Any { jsonString as Any }
 
     var jsonString: String {
         let mirror = Mirror(reflecting: self)
@@ -117,7 +112,6 @@ extension TodoItem {
         return result
     }
 }
-
 
 // MARK: - Private methods
 
@@ -145,7 +139,6 @@ private extension TodoItem {
         return data
     }
 }
-
 
 // MARK: - Public methods
 

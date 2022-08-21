@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import DesignSystem
 
 // MARK: - IconWithDateModel model
 
@@ -46,7 +46,6 @@ final class IconWithDateView: UIStackView {
         return view
     }()
 
-
     // MARK: - Init
 
     init() {
@@ -58,7 +57,6 @@ final class IconWithDateView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     // MARK: - Public methods
 
     func configure(with model: IconWithDateModel) {
@@ -69,7 +67,6 @@ final class IconWithDateView: UIStackView {
         titleLabel.text = dateFormatter.string(from: model.date)
     }
 }
-
 
 // MARK: - IconWithDateView extension
 

@@ -7,10 +7,10 @@
 
 import Foundation
 
-//protocol TodoCellProtocol: AnyObject {
+// protocol TodoCellProtocol: AnyObject {
 //
 //    func configure(with state: TodoViewState)
-//}
+// }
 
 protocol TodoModalProtocol: AnyObject {
 
@@ -51,9 +51,7 @@ final class TodoViewModel {
         }
     }
 
-
     // MARK: - private properties
-
 
     // MARK: - Init
 
@@ -62,14 +60,13 @@ final class TodoViewModel {
     }
 }
 
-
 // MARK: - TodoViewModelProtocol
 
 extension TodoViewModel: TodoViewModelProtocol {
 
     func deadlineDidChange(isEnabled: Bool) {
         state.deadline = isEnabled ? state.deadline ?? Date().dayAfter : nil
-        isEnabled ? modal?.showCalendar() : modal?.dismissCalendar()
+        _ = isEnabled ? modal?.showCalendar() : modal?.dismissCalendar()
     }
 
     func deadLineDidClick() {
