@@ -48,7 +48,7 @@ class TaskCellHeader: UITableViewHeaderFooterView {
     private let title: UILabel = {
         let view = UILabel()
         view.text = "Выполнено - 0"
-        view.tintColor = Token.labelTertiary.color
+        view.textColor = Token.labelTertiary.color
         view.font = UIFont.systemFont(ofSize: 15)
         return view
     }()

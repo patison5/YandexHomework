@@ -31,6 +31,9 @@ protocol HomeViewModelProtocol: AnyObject {
     /// - Parameter indexPath: Позиция задачи в таблице
     func delete(at indexPath: IndexPath)
 
+    /// Скрыть/Отобразить выполненные таски
+    func toggleCompletedTasks()
+
     /// Переключить состояние задачи (выполнено/не выполнено)
     /// - Parameters:
     ///   - model: Модель задачи
@@ -40,9 +43,6 @@ protocol HomeViewModelProtocol: AnyObject {
     /// Открыть модальное окно
     /// - Parameter model: Модель с задачей
     func openModal(with model: TodoViewModel?)
-
-    /// Скрыть/Отобразить выполненные таски
-    func toggleCompletedTasks()
 
     // Настроить шапку
     func setupHeader()

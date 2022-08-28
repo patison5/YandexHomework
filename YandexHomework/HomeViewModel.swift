@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 final class HomeViewModel {
 
@@ -15,7 +16,9 @@ final class HomeViewModel {
 
     var data: [TodoViewModel] = [] {
         didSet {
-            setupHeader()
+            DispatchQueue.main.async {
+                self.setupHeader()
+            }
         }
     }
 
@@ -25,7 +28,9 @@ final class HomeViewModel {
 
     private let fileName = "development.json"
 
-    private lazy var fileCache: FileCacheProtocol = FileCache(fileName: fileName)
+    private lazy var fileCache: FileCacheServiceProtocol = FileCache(fileName: fileName)
+
+    private let mockNetwork: NetworkServiceProtocol = MockNetworkService()
 }
 
 // MARK: - HomeViewModelDelegate
@@ -43,25 +48,37 @@ extension HomeViewModel: HomeViewModelDelegate {
             changedAt: state.changedAt
         )
 
-        let isExist = data.contains { $0.item.id == newItem.id  }
-        if isExist {
-            try? fileCache.change(item: newItem)
-        } else {
-            data.append(model)
-            try? fileCache.add(item: newItem)
+        mockNetwork.editTodoItem(newItem) { [weak self] res in
+            switch res {
+            case let .success(updatedItem):
+                self?.update(with: updatedItem, model: model)
+                DDLogError("Новый элемент успешно добавлен на стороне сервера")
+                DispatchQueue.main.async {
+                    self?.view?.reloadData()
+                }
+            case .failure:
+                DDLogError("Ошибка обновления. Нет доступа к серверу")
+            }
         }
-
-        try? fileCache.saveItems(to: fileName)
-        view?.items = data
-        view?.reloadData()
     }
 
     func didDelete(model: TodoViewModel) {
-        try? fileCache.removeItem(by: model.item.id)
-        try? fileCache.saveItems(to: fileName)
-        data.removeAll { $0.item.id == model.item.id }
-        view?.items = data
-        view?.reloadData()
+        mockNetwork.deleteTodoItem(at: model.item.id) { [weak self] res in
+            switch res {
+            case .success:
+                guard let self = self else { return }
+                try? self.fileCache.removeItem(by: model.item.id)
+                self.saveItems()
+                self.data.removeAll { $0.item.id == model.item.id }
+                self.view?.items = self.data
+                DDLogError("Элемент успешно удален на стороне сервера")
+                DispatchQueue.main.async {
+                    self.view?.reloadData()
+                }
+            case let .failure(error):
+                DDLogError(error)
+            }
+        }
     }
 }
 
@@ -69,13 +86,61 @@ extension HomeViewModel: HomeViewModelDelegate {
 
 extension HomeViewModel: HomeViewModelProtocol {
 
+    func viewDidLoad() {
+        fetchItems()
+    }
+
     func createTask(with text: String) {
         let newModel = TodoViewModel(item: TodoItem(text: text))
         data.append(newModel)
         try? fileCache.add(item: newModel.item)
-        try? fileCache.saveItems(to: fileName)
-        view?.items = data
-        view?.insertRow(at: IndexPath(row: data.count - 1, section: 0))
+
+        mockNetwork.editTodoItem(newModel.item) { [weak self] res in
+            guard let self = self else { return }
+            switch res {
+            case .success:
+                self.saveItems()
+                self.view?.items = self.data
+                DDLogError("Новый элемент успешно добавлен на стороне сервера")
+                DispatchQueue.main.async {
+                    self.view?.insertRow(at: IndexPath(row: self.data.count - 1, section: 0))
+                }
+            case .failure:
+                DDLogError("Ошибка добавления. Нет доступа к серверу")
+            }
+        }
+    }
+
+    func delete(at indexPath: IndexPath) {
+        guard let view = view else { return }
+        let idx = isHidden ? data[indexPath.row].item.id : view.items[indexPath.row].item.id
+
+        mockNetwork.deleteTodoItem(at: idx) { [weak self] res in
+            guard let self = self else {
+                DDLogError("error")
+                return
+            }
+            switch res {
+            case .success:
+                if !self.isHidden {
+                    let id = view.items[indexPath.row].item.id
+                    try? self.fileCache.removeItem(by: id)
+                    self.data.removeAll { $0.item.id == id }
+                    view.items.remove(at: indexPath.row)
+                } else {
+                    try? self.fileCache.removeItem(by: self.data[indexPath.row].item.id)
+                    self.data.remove(at: indexPath.row)
+                    view.items = self.data
+                }
+                self.saveItems()
+                DispatchQueue.main.async {
+                    view.deleteRow(at: indexPath)
+                }
+            case let .failure(error):
+                DDLogError(error)
+            }
+        }
+        setupHeader()
     }
 
     func toggleCompletedTasks() {
@@ -92,6 +157,40 @@ extension HomeViewModel: HomeViewModelProtocol {
         }
         isHidden.toggle()
         setupHeader()
+    }
+
+    func toggleStatus(on model: TodoViewModel, at: IndexPath) {
+        mockNetwork.editTodoItem(model.item) { [weak self] res in
+            switch res {
+            case .success:
+                guard let self = self,
+                      let view = self.view
+                else { return }
+
+                if !self.isHidden {
+                    model.state.isFinished.toggle()
+                    model.item = model.item.toggleComplete()
+                    try? self.fileCache.change(item: model.item)
+                    self.saveItems()
+                    view.items.remove(at: at.row)
+                } else {
+                    model.state.isFinished.toggle()
+                    model.item = model.item.toggleComplete()
+                    try? self.fileCache.change(item: model.item)
+                    self.saveItems()
+                }
+                DispatchQueue.main.async {
+                    if !self.isHidden {
+                        view.deleteRow(at: at)
+                    } else {
+                        view.reloadRow(at: at)
+                    }
+                    self.setupHeader()
+                }
+            case let .failure(error):
+                DDLogError(error)
+            }
+        }
     }
 
     func openModal(with model: TodoViewModel? = nil) {
@@ -111,67 +210,6 @@ extension HomeViewModel: HomeViewModelProtocol {
         view?.present(modal: navigationController)
     }
 
-    func viewDidLoad() {
-        fetchItems()
-    }
-
-    func fetchItems() {
-        try? fileCache.loadItems(from: fileName)
-
-        // Временная фигня для дебага
-        if fileCache.items.isEmpty {
-            let startArray = getStartArray()
-            startArray.forEach {
-                try? fileCache.add(item: $0)
-            }
-            try? fileCache.saveItems(to: fileName)
-        }
-
-        data = fileCache.items.map { TodoViewModel(item: $0) }
-        data.forEach {
-            $0.delegate = self
-        }
-        view?.items = data
-    }
-
-    func delete(at indexPath: IndexPath) {
-        guard let view = view else { return }
-        let id = view.items[indexPath.row].item.id
-        if !isHidden {
-            try? fileCache.removeItem(by: id)
-            try? fileCache.saveItems(to: fileName)
-            data.removeAll { $0.item.id == id }
-            view.items.remove(at: indexPath.row)
-            view.deleteRow(at: indexPath)
-        } else {
-            try? fileCache.removeItem(by: data[indexPath.row].item.id)
-            try? fileCache.saveItems(to: fileName)
-            data.remove(at: indexPath.row)
-            view.items = data
-            view.deleteRow(at: indexPath)
-        }
-        setupHeader()
-    }
-
-    func toggleStatus(on model: TodoViewModel, at: IndexPath) {
-        guard let view = view else { return }
-        if !isHidden {
-            model.state.isFinished.toggle()
-            model.item = model.item.toggleComplete()
-            try? fileCache.change(item: model.item)
-            try? fileCache.saveItems(to: fileName)
-            view.items.remove(at: at.row)
-            view.deleteRow(at: at)
-        } else {
-            model.state.isFinished.toggle()
-            model.item = model.item.toggleComplete()
-            try? fileCache.change(item: model.item)
-            try? fileCache.saveItems(to: fileName)
-            view.reloadRow(at: at)
-        }
-        setupHeader()
-    }
-
     func setupHeader() {
         let filtered = data.filter { $0.item.isFinished  }
         let amount = filtered.count
@@ -183,6 +221,77 @@ extension HomeViewModel: HomeViewModelProtocol {
 
 private extension HomeViewModel {
 
+    // MARK: - Fetch items -
+    func fetchItems() {
+        mockNetwork.getAllTodoItems { [weak self] res in
+            switch res {
+            case let .success(networkItems):
+                DDLogInfo("Загрузили данные из сети. Обновляем кэш")
+                networkItems.forEach {
+                    try? self?.fileCache.add(item: $0)
+                }
+                self?.parse(items: networkItems)
+            case .failure:
+                DDLogError("Ошибка чтения данных из сети, читаем данные из файла")
+                guard let filename = self?.fileName else { return }
+                self?.fileCache.load(from: filename) { result in
+                    switch result {
+                    case let .success(fileItems):
+                        DDLogInfo("Загрузили данные из файла")
+                        self?.parse(items: fileItems)
+                    case let .failure(error):
+                        DDLogError(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Save items -
+    func saveItems() {
+        fileCache.save(to: fileName) { result in
+            switch result {
+            case .success:
+                DDLogInfo("Данные успешно сохранены в файл")
+            case let .failure(error):
+                DDLogError(error)
+            }
+        }
+    }
+
+    // MARK: - Parse data -
+    func parse(items: [TodoItem]) {
+        if items.isEmpty {
+            DDLogInfo("Набор пустой. Создаем дефолтный")
+            let startArray = getStartArray()
+            startArray.forEach {
+                try? fileCache.add(item: $0)
+            }
+        }
+        saveItems()
+        data = items.map { TodoViewModel(item: $0) }
+        data.forEach {
+            $0.delegate = self
+        }
+        view?.items = data
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.reloadData()
+        }
+    }
+
+    func update(with item: TodoItem, model: TodoViewModel) {
+        let isExist = data.contains { $0.item.id == item.id  }
+        if isExist {
+            try? fileCache.change(item: item)
+        } else {
+            data.append(model)
+            try? fileCache.add(item: item)
+        }
+        saveItems()
+        view?.items = data
+    }
+
+    // MARK: - Default info
     func getStartArray() -> [TodoItem] {
         return [
             TodoItem(
@@ -220,73 +329,6 @@ private extension HomeViewModel {
                 importancy: .important,
                 createdAt: Date(timeIntervalSince1970: 1658917535.767741),
                 changedAt: Date(timeIntervalSince1970: 1658917535.767741)
-            ),
-            TodoItem(
-                text: "добавить навигацию между экранами с использованием механизма modal presentation. экран редактирования должен быть достаточно универсальным, чтобы обрабатывать как создание новых заметок, так и редактирование существующих",
-                importancy: .unImportant,
-                createdAt: Date(timeIntervalSince1970: 1658917535.767741),
-                changedAt: Date(timeIntervalSince1970: 1658917535.767741)
-            ),
-            TodoItem(
-                text: "поддержать повороты экрана на редактировании записи. в landscape поле ввода должно занимать весь экран, остальные контролы нужно прятать",
-                importancy: .normal,
-                deadline: nil,
-                isFinished: true,
-                changedAt: Date(timeIntervalSince1970: 1658917535.767741)
-            ),
-            TodoItem(
-                text: "custom transition на экран редактирования анимировать появление именно из той ячейки table view, с которой взаимодействовал пользователь",
-                importancy: .normal,
-                deadline: nil,
-                changedAt: Date(timeIntervalSince1970: 1658917535.767741)
-            ),
-            TodoItem(
-                text: "поддержать механизм preview \ntableView(_:contextMenuConfigurationForRowAt:point:)\n tableView(_:willPerformPreviewActionForMenuWith:animator:)",
-                importancy: .unImportant,
-                deadline: Date(timeIntervalSince1970: 1658917535.767741),
-                changedAt: Date(timeIntervalSince1970: 1658917535.767741)
-            ),
-            TodoItem(
-                text: "Выпить пива",
-                importancy: .unImportant,
-                deadline: nil,
-                isFinished: false
-            ),
-            TodoItem(
-                text: "Смотри предыдущий пункт",
-                importancy: .normal,
-                deadline: nil,
-                isFinished: false
-            ),
-            TodoItem(
-                text: "Не хватило, над повторить",
-                importancy: .normal,
-                deadline: nil,
-                isFinished: false
-            ),
-            TodoItem(
-                text: "Пожалуй, можно и по пиву",
-                importancy: .normal,
-                deadline: Date(timeIntervalSince1970: 1658917535.767741),
-                isFinished: false
-            ),
-            TodoItem(
-                text: "Смотри предыдущий пункт",
-                importancy: .normal,
-                deadline: nil,
-                isFinished: false
-            ),
-            TodoItem(
-                text: "Не хватило, над повторить",
-                importancy: .normal,
-                deadline: nil,
-                isFinished: true
-            ),
-            TodoItem(
-                text: "Пожалуй, можно и по пиву",
-                importancy: .normal,
-                deadline: Date(timeIntervalSince1970: 1658917535.767741),
-                isFinished: false
             )
         ]
     }
