@@ -1,25 +1,16 @@
 //
 //  FileCacheProtocol.swift
-//  Homework
+//  YandexHomework
 //
-//  Created by Fedor Penin on 25.07.2022.
+//  Created by Fedor Penin on 22.08.2022.
 //
 
 import Foundation
 
-// Описание обработчика для работы с файлами
 protocol FileCacheProtocol {
 
     /// Список сохраняемых элементов
     var items: [TodoItem] { get }
-
-    /// Сохранить элементы в файле
-    /// - Parameter file: Название файла
-    func saveItems(to file: String) throws
-
-    /// Прочитать элементы из файла
-    /// - Parameter file: Название файла
-    func loadItems(from file: String) throws
 
     /// Добавить новый элемент
     /// - Parameter item: Элемент
@@ -27,7 +18,7 @@ protocol FileCacheProtocol {
 
     /// Удалить элемент из списка
     /// - Parameter id: Уникальный иднетификатор элемента
-    func removeItem(by id: String) throws
+    func remove(by id: String) throws
 
     /// Найти задачу
     /// - Parameter id: айди задачи
@@ -37,4 +28,14 @@ protocol FileCacheProtocol {
     /// Изменить элемент
     /// - Parameter item: Новый элемент
     func change(item: TodoItem) throws
+
+    /// Сохранить таски в файл
+    /// - Parameters:
+    ///   - file: Название файла
+    func save(to file: String) throws
+
+    /// Загрузить таски из файла
+    /// - Parameters:
+    ///   - file: Название файла
+    func load(from file: String) throws -> [TodoItem]
 }

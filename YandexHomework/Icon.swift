@@ -8,19 +8,19 @@
 import UIKit
 
 enum Icon: String {
-    case iconArrowDown20 = "iconArrowDown20"
-    case iconExclaminationPoint20 = "iconExclaminationPoint20"
-    case iconPlusCircleFill = "iconPlusCircleFill"
+    case iconArrowDown20
+    case iconExclaminationPoint20
+    case iconPlusCircleFill
 
-    case iconStatusOff = "iconStatusOff"
-    case iconStatusOn = "iconStatusOn"
-    case iconStatusHighPriority = "iconStatusHighPriority"
+    case iconStatusOff
+    case iconStatusOn
+    case iconStatusHighPriority
 
-    case iconArrowRight = "iconArrowRight"
-    case iconCalendar = "iconCalendar"
+    case iconArrowRight
+    case iconCalendar
 
-    case iconInfo = "iconInfo"
-    case iconTrash = "iconTrash"
+    case iconInfo
+    case iconTrash
 }
 
 extension Icon {
