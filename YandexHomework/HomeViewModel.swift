@@ -28,7 +28,7 @@ final class HomeViewModel {
 
     private let fileName = "development.json"
 
-    private lazy var fileCache: FileCacheServiceProtocol = FileCache(fileName: fileName)
+    private lazy var fileCache: FileCacheServiceProtocol = FileCacheService(fileName: fileName)
 
     private let mockNetwork: NetworkServiceProtocol = MockNetworkService()
     private let network: NetworkServiceProtocol = NetworkService()
@@ -55,8 +55,7 @@ extension HomeViewModel: HomeViewModelDelegate {
     func didDelete(model: TodoViewModel) {
         view?.showStatusIndicator()
         let id = model.item.id
-        try? fileCache.removeItem(by: id)
-        saveItems()
+        try? fileCache.remove(by: id)
         data.removeAll { $0.item.id == id }
         view?.items = data
 
@@ -163,7 +162,7 @@ private extension HomeViewModel {
 
     /// Смержить данные с сервером
     func fetchItemsByPatch() async {
-        fileCache.load(from: fileName) { [weak self] result in
+        fileCache.load { [weak self] result in
             switch result {
             case let .success(fileItems):
                 DDLogInfo("Загрузили данные из файла")
@@ -216,8 +215,16 @@ private extension HomeViewModel {
         DispatchQueue.main.async { [weak self] in
             self?.view?.reloadData()
         }
-        data.forEach { try? fileCache.add(item: $0.item)}
-        saveItems()
+        let items = data.map { $0.item }
+
+        fileCache.patch(by: items) { res in
+            switch res {
+            case .success():
+                DDLogInfo("Обновляем элементы в базе полученными элементами с сервера.")
+            case let .failure(error):
+                DDLogError(error)
+            }
+        }
     }
 
     /// Отправить запрос на удаление  элемента на стороне сервера
@@ -296,25 +303,12 @@ private extension HomeViewModel {
         data.append(model)
         try? fileCache.add(item: model.item)
         self.view?.items = self.data
-        self.saveItems()
 
         // отправка инфы на добавление на сервер
         await addItemToServer(model: model)
 
         DispatchQueue.main {
             self.view?.insertRow(at: IndexPath(row: self.data.count - 1, section: 0))
-        }
-    }
-
-    /// Сохранить данные в кэшэ
-    func saveItems() {
-        fileCache.save(to: fileName) { result in
-            switch result {
-            case .success:
-                DDLogInfo("Данные успешно сохранены в файл")
-            case let .failure(error):
-                DDLogError(error)
-            }
         }
     }
 
@@ -329,7 +323,6 @@ private extension HomeViewModel {
             data.forEach {
                 try? fileCache.add(item: $0)
             }
-            saveItems()
         }
         let models = data.map { TodoViewModel(item: $0) }
         models.forEach {
@@ -362,7 +355,6 @@ private extension HomeViewModel {
                     await addItemToServer(model: TodoViewModel(item: item))
             }
         }
-        saveItems()
         view?.items = data
 
         DispatchQueue.main.async { [weak self] in
@@ -381,13 +373,11 @@ private extension HomeViewModel {
             model.state.isFinished.toggle()
             model.item = model.item.toggleComplete()
             try? fileCache.change(item: model.item)
-            saveItems()
             view.items.remove(at: at.row)
         } else {
             model.state.isFinished.toggle()
             model.item = model.item.toggleComplete()
             try? fileCache.change(item: model.item)
-            self.saveItems()
         }
 
         await changeItemOnServer(model: model)
@@ -410,16 +400,15 @@ private extension HomeViewModel {
 
         if !isHidden {
             id = view.items[indexPath.row].item.id
-            try? fileCache.removeItem(by: id)
+            try? fileCache.remove(by: id)
             data.removeAll { $0.item.id == id }
             view.items.remove(at: indexPath.row)
         } else {
             id = data[indexPath.row].item.id
-            try? fileCache.removeItem(by: id)
+            try? fileCache.remove(by: id)
             data.remove(at: indexPath.row)
             view.items = data
         }
-        saveItems()
 
         await deleteItemFromServer(by: id)
 

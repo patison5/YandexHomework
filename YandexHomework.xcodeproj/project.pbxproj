@@ -23,6 +23,9 @@
 		D628B71C28A69B9C00B82570 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71B28A69B9C00B82570 /* NetworkService.swift */; };
 		D628B71E28A69BB800B82570 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */; };
 		D628B72028A69C8B00B82570 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D628B71F28A69C8B00B82570 /* MockNetworkService.swift */; };
+		D62A0FDB28BB2BDD000F998E /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62A0FDA28BB2BDD000F998E /* Database.swift */; };
+		D62A0FDD28BB2D96000F998E /* FileCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62A0FDC28BB2D96000F998E /* FileCacheService.swift */; };
+		D62A0FDF28BB2DD3000F998E /* FileCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62A0FDE28BB2DD3000F998E /* FileCacheProtocol.swift */; };
 		D6445889289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */; };
 		D64DC7EE2891954A003EAE48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC7ED2891954A003EAE48 /* AppDelegate.swift */; };
 		D64DC7F02891954A003EAE48 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64DC7EF2891954A003EAE48 /* SceneDelegate.swift */; };
@@ -87,6 +90,9 @@
 		D628B71B28A69B9C00B82570 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D628B71D28A69BB800B82570 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		D628B71F28A69C8B00B82570 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
+		D62A0FDA28BB2BDD000F998E /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		D62A0FDC28BB2D96000F998E /* FileCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheService.swift; sourceTree = "<group>"; };
+		D62A0FDE28BB2DD3000F998E /* FileCacheProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCacheProtocol.swift; sourceTree = "<group>"; };
 		D6445888289EEF5D00B7DCE4 /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
 		D64DC7EA2891954A003EAE48 /* YandexHomework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YandexHomework.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D64DC7ED2891954A003EAE48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -260,6 +266,7 @@
 				D64DC81D2891970D003EAE48 /* Services */,
 				D64DC7ED2891954A003EAE48 /* AppDelegate.swift */,
 				D64DC7EF2891954A003EAE48 /* SceneDelegate.swift */,
+				D62A0FDA28BB2BDD000F998E /* Database.swift */,
 				D64DC7F62891954C003EAE48 /* Assets.xcassets */,
 				D64DC7FB2891954C003EAE48 /* Info.plist */,
 			);
@@ -314,9 +321,11 @@
 		D64DC82028919723003EAE48 /* FileCache */ = {
 			isa = PBXGroup;
 			children = (
-				D64DC8212891975F003EAE48 /* FileCacheServiceProtocol.swift */,
+				D62A0FDE28BB2DD3000F998E /* FileCacheProtocol.swift */,
 				D64DC82328919771003EAE48 /* FileCache.swift */,
 				D64DC8252891978C003EAE48 /* FileCacheError.swift */,
+				D64DC8212891975F003EAE48 /* FileCacheServiceProtocol.swift */,
+				D62A0FDC28BB2D96000F998E /* FileCacheService.swift */,
 			);
 			name = FileCache;
 			sourceTree = "<group>";
@@ -644,10 +653,12 @@
 				D699174828AD4006003BEF6F /* ApiError.swift in Sources */,
 				D699174C28AE2FD6003BEF6F /* Variables.swift in Sources */,
 				D6F4C5A9289DB21F007FF13A /* TaskInputCell.swift in Sources */,
+				D62A0FDF28BB2DD3000F998E /* FileCacheProtocol.swift in Sources */,
 				D64DC7EE2891954A003EAE48 /* AppDelegate.swift in Sources */,
 				D64DC8262891978C003EAE48 /* FileCacheError.swift in Sources */,
 				D6094D762897059E00A65EAD /* TodoViewModelProtocol.swift in Sources */,
 				D64DC83928927A97003EAE48 /* ImportancyView.swift in Sources */,
+				D62A0FDD28BB2D96000F998E /* FileCacheService.swift in Sources */,
 				D64DC82428919771003EAE48 /* FileCache.swift in Sources */,
 				D699174E28AE8C2E003BEF6F /* DispatchQueue.swift in Sources */,
 				D6094D742896EF4600A65EAD /* TodoViewModel.swift in Sources */,
@@ -655,6 +666,7 @@
 				D628B71E28A69BB800B82570 /* NetworkServiceProtocol.swift in Sources */,
 				D64DC7F02891954A003EAE48 /* SceneDelegate.swift in Sources */,
 				D628B71C28A69B9C00B82570 /* NetworkService.swift in Sources */,
+				D62A0FDB28BB2BDD000F998E /* Database.swift in Sources */,
 				D6F4C5A3289BD1F2007FF13A /* HomeViewModelProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
