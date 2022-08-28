@@ -24,6 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DDLog.add(DDOSLogger.sharedInstance)
         dynamicLogLevel = .verbose
 //        testLogger()
+
+        let deviceID = UIDevice.current.identifierForVendor!.uuidString
+        print(deviceID)
     }
 }
 

@@ -8,10 +8,10 @@
 import Foundation
 
 /// Перечисление важности задачи
-enum Importancy: String {
-    case normal
-    case important
-    case unImportant
+enum Importancy: String, Codable {
+    case normal = "basic"
+    case important = "important"
+    case unImportant = "low"
 }
 
 struct TodoItem: Equatable {

@@ -35,6 +35,8 @@ class TaskCellHeader: UITableViewHeaderFooterView {
 
     var status: Bool = false
 
+    var statusCounter: Int = 0
+
     /// Модель шапки таблицы
     var model: TaskCellHeaderModel? {
         didSet {
@@ -62,6 +64,11 @@ class TaskCellHeader: UITableViewHeaderFooterView {
         return view
     }()
 
+    private let activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        return view
+    }()
+
     // MARK: - Init
 
     override init(reuseIdentifier: String?) {
@@ -86,6 +93,20 @@ class TaskCellHeader: UITableViewHeaderFooterView {
     func setButtonTitle(with value: String) {
         self.buttonView.setTitle(value, for: .normal)
     }
+
+    /// Остановить  индикатор загрузки
+    func hideActivityIndicator() {
+        statusCounter -= 1
+        if statusCounter == 0 {
+            activityIndicator.stopAnimating()
+        }
+    }
+
+    /// Запустить индикатор загрузки
+    func showActivityIndicator() {
+        statusCounter += 1
+        activityIndicator.startAnimating()
+    }
 }
 
 // MARK: - Private methods
@@ -93,7 +114,7 @@ class TaskCellHeader: UITableViewHeaderFooterView {
 private extension TaskCellHeader {
 
     func configureContents() {
-        [title, buttonView].forEach {
+        [title, buttonView, activityIndicator].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -105,7 +126,12 @@ private extension TaskCellHeader {
 
             buttonView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             buttonView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            buttonView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            buttonView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+
+            activityIndicator.heightAnchor.constraint(equalToConstant: 20),
+            activityIndicator.widthAnchor.constraint(equalToConstant: 20),
+            activityIndicator.trailingAnchor.constraint(equalTo: buttonView.leadingAnchor, constant: -10),
+            activityIndicator.centerYAnchor.constraint(equalTo: buttonView.centerYAnchor)
         ])
     }
 }
