@@ -28,7 +28,7 @@ final class HomeViewModel {
 
     private let fileName = "development.json"
 
-    private lazy var fileCache: FileCacheServiceProtocol = FileCache(fileName: fileName)
+    private lazy var fileCache: FileCacheServiceProtocol = FileCacheService(fileName: fileName)
 
     private let mockNetwork: NetworkServiceProtocol = MockNetworkService()
 }
@@ -53,9 +53,7 @@ extension HomeViewModel: HomeViewModelDelegate {
             case let .success(updatedItem):
                 self?.update(with: updatedItem, model: model)
                 DDLogError("Новый элемент успешно добавлен на стороне сервера")
-                DispatchQueue.main.async {
-                    self?.view?.reloadData()
-                }
+                self?.view?.reloadData()
             case .failure:
                 DDLogError("Ошибка обновления. Нет доступа к серверу")
             }
@@ -67,14 +65,12 @@ extension HomeViewModel: HomeViewModelDelegate {
             switch res {
             case .success:
                 guard let self = self else { return }
-                try? self.fileCache.removeItem(by: model.item.id)
+                try? self.fileCache.remove(by: model.item.id)
                 self.saveItems()
                 self.data.removeAll { $0.item.id == model.item.id }
                 self.view?.items = self.data
                 DDLogError("Элемент успешно удален на стороне сервера")
-                DispatchQueue.main.async {
-                    self.view?.reloadData()
-                }
+                self.view?.reloadData()
             case let .failure(error):
                 DDLogError(error)
             }
@@ -102,9 +98,7 @@ extension HomeViewModel: HomeViewModelProtocol {
                 self.saveItems()
                 self.view?.items = self.data
                 DDLogError("Новый элемент успешно добавлен на стороне сервера")
-                DispatchQueue.main.async {
-                    self.view?.insertRow(at: IndexPath(row: self.data.count - 1, section: 0))
-                }
+                self.view?.insertRow(at: IndexPath(row: self.data.count - 1, section: 0))
             case .failure:
                 DDLogError("Ошибка добавления. Нет доступа к серверу")
             }
@@ -124,18 +118,16 @@ extension HomeViewModel: HomeViewModelProtocol {
             case .success:
                 if !self.isHidden {
                     let id = view.items[indexPath.row].item.id
-                    try? self.fileCache.removeItem(by: id)
+                    try? self.fileCache.remove(by: id)
                     self.data.removeAll { $0.item.id == id }
                     view.items.remove(at: indexPath.row)
                 } else {
-                    try? self.fileCache.removeItem(by: self.data[indexPath.row].item.id)
+                    try? self.fileCache.remove(by: self.data[indexPath.row].item.id)
                     self.data.remove(at: indexPath.row)
                     view.items = self.data
                 }
                 self.saveItems()
-                DispatchQueue.main.async {
-                    view.deleteRow(at: indexPath)
-                }
+                view.deleteRow(at: indexPath)
             case let .failure(error):
                 DDLogError(error)
             }
@@ -179,14 +171,12 @@ extension HomeViewModel: HomeViewModelProtocol {
                     try? self.fileCache.change(item: model.item)
                     self.saveItems()
                 }
-                DispatchQueue.main.async {
-                    if !self.isHidden {
-                        view.deleteRow(at: at)
-                    } else {
-                        view.reloadRow(at: at)
-                    }
-                    self.setupHeader()
+                if !self.isHidden {
+                    view.deleteRow(at: at)
+                } else {
+                    view.reloadRow(at: at)
                 }
+                self.setupHeader()
             case let .failure(error):
                 DDLogError(error)
             }
@@ -274,9 +264,7 @@ private extension HomeViewModel {
             $0.delegate = self
         }
         view?.items = data
-        DispatchQueue.main.async { [weak self] in
-            self?.view?.reloadData()
-        }
+        view?.reloadData()
     }
 
     func update(with item: TodoItem, model: TodoViewModel) {

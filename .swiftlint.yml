@@ -3,6 +3,7 @@ included:
 
 disabled_rules:
   - line_length
+  - type_body_length
   - function_parameter_count
 
 opt_in_rules:
@@ -10,10 +11,22 @@ opt_in_rules:
   - type_body_length
   - force_unwrapping
   - identifier_name
-  - function_body_length
+
+function_body_length: 400
 
 nesting:
   type_level: 4
 
 identifier_name:
-  allowed_symbols: "_"
+    allowed_symbols: "_"
+    min_length: 
+        error: 3 
+    excluded: 
+    - at
+    - id
+    - URL
+    - GlobalAPIKey
+
+file_length:
+  warning: 500
+  error: 600

@@ -10,16 +10,13 @@ import Foundation
 // Описание обработчика для работы с файлами
 protocol FileCacheServiceProtocol {
 
-    /// Список сохраняемых элементов
-    var items: [TodoItem] { get }
-
     /// Добавить новый элемент
     /// - Parameter item: Элемент
     func add(item: TodoItem) throws
 
     /// Удалить элемент из списка
     /// - Parameter id: Уникальный иднетификатор элемента
-    func removeItem(by id: String) throws
+    func remove(by id: String) throws
 
     /// Найти задачу
     /// - Parameter id: айди задачи

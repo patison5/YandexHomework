@@ -11,7 +11,7 @@ final class MockNetworkService: NetworkServiceProtocol {
 
     func getAllTodoItems(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
         let timeout = TimeInterval.random(in: 1..<3)
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
             if Bool.random() {
                 completion(.success(self.getStartArray()))
             } else {
@@ -22,15 +22,15 @@ final class MockNetworkService: NetworkServiceProtocol {
 
     func editTodoItem(_ item: TodoItem, completion: @escaping (Result<TodoItem, Error>) -> Void) {
         let timeout = TimeInterval.random(in: 1..<3)
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
-          completion(.success(item))
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
+            completion(.success(item))
         }
     }
 
     func deleteTodoItem(at id: String, completion: @escaping (Result<TodoItem, Error>) -> Void) {
         let timeout = TimeInterval.random(in: 1..<3)
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
-          completion(.success(TodoItem(text: "Hello world")))
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
+            completion(.success(TodoItem(text: "Hello world")))
         }
     }
 }

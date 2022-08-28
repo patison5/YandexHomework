@@ -8,27 +8,27 @@
 import UIKit
 
 enum Token: String {
-    case red = "red"
-    case green = "green"
-    case blue = "blue"
-    case gray = "gray"
-    case light = "light"
-    case white = "white"
-    case grayLight = "grayLight"
+    case red
+    case green
+    case blue
+    case gray
+    case light
+    case white
+    case grayLight
 
-    case backIOSPrimary = "backIOSPrimary"
-    case backPrimary = "backPrimary"
-    case backSecondary = "backSecondary"
-    case backElevated = "backElevated"
+    case backIOSPrimary
+    case backPrimary
+    case backSecondary
+    case backElevated
 
-    case labelPrimary = "labelPrimary"
-    case labelTertiary = "labelTertiary"
-    case labelSecondary = "labelSecondary"
-    case labelDisable = "labelDisable"
+    case labelPrimary
+    case labelTertiary
+    case labelSecondary
+    case labelDisable
 
-    case supportNavBarBlur = "supportNavBarBlur"
-    case supportOverlay = "supportOverlay"
-    case supportSeparator = "supportSeparator"
+    case supportNavBarBlur
+    case supportOverlay
+    case supportSeparator
 }
 
 extension Token {

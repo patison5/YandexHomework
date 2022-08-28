@@ -59,7 +59,7 @@ class FileCacheTests: XCTestCase {
         // act
         try cache.add(item: test1)
         try cache.add(item: test2)
-        try cache.removeItem(by: test1.id)
+        try cache.remove(by: test1.id)
 
         // assert
         XCTAssertEqual(cache.items, [test2])
@@ -103,7 +103,7 @@ class FileCacheTests: XCTestCase {
         try cache.add(item: test1)
 
         self.measure {
-            try? cache.removeItem(by: test1.id)
+            try? cache.remove(by: test1.id)
         }
     }
 }
