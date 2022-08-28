@@ -5,7 +5,7 @@
 //  Created by Fedor Penin on 17.08.2022.
 //
 
-import Foundation
+import UIKit
 
 struct ApiTodoElementModel: Codable {
     let element: ApiTodoItem
@@ -60,6 +60,7 @@ extension ApiTodoItem {
 
     static func parse(from item: TodoViewModel) -> ApiTodoItem? {
         let todoItem = item.item
+        let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "12345678-1F21-4D46-B817-0D6A52709EA6"
         return ApiTodoItem(
             id: todoItem.id,
             text: todoItem.text,
@@ -68,7 +69,7 @@ extension ApiTodoItem {
             isFinished: todoItem.isFinished,
             createdAt: todoItem.createdAt,
             changedAt: todoItem.changedAt ?? todoItem.createdAt,
-            lastUpdatedBy: "831FC465-1F21-4D46-B817-0D6A52709EA6"
+            lastUpdatedBy: deviceID
         )
     }
 }
