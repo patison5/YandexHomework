@@ -6,6 +6,7 @@ target 'YandexHomework' do
   use_frameworks!
 
 
+  pod 'SQLite.swift', :git => 'https://github.com/stephencelis/SQLite.swift.git', :branch => 'master'
   pod 'CocoaLumberjack/Swift'
   pod 'SwiftLint'
   pod 'DesignSystem', :git => 'https://github.com/patison5/DesignSystem.git'

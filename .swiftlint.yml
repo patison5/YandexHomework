@@ -17,3 +17,15 @@ nesting:
 
 identifier_name:
   allowed_symbols: "_"
+  min_length:
+    error: 3
+  excluded:
+    - id
+    - db
+    - URL
+    - GlobalAPIKey
+    - at
+
+file_length:
+  warning: 500
+  error: 600
