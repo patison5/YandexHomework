@@ -111,7 +111,6 @@ private extension FileCache {
             }
 
             let fileURL = dir.appendingPathComponent(file)
-            print(fileURL)
 
             let text = try String(contentsOf: fileURL, encoding: .utf8)
             guard let data = text.data(using: .utf8) else {

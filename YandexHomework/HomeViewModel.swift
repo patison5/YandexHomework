@@ -61,7 +61,9 @@ extension HomeViewModel: HomeViewModelDelegate {
         view?.items = data
 
         Task {
-            Variables.shared.isDirty ? await fetchItemsByPatch() : await deleteItemFromServer(by: id)
+            Variables.shared.isDirty ?
+                fetchItemsByPatch() :
+                deleteItemFromServer(by: id)
         }
 
         DispatchQueue.main.async {
@@ -78,9 +80,9 @@ extension HomeViewModel: HomeViewModelProtocol {
         view?.showStatusIndicator()
         Task {
             if Variables.shared.isInited || Variables.shared.isDirty {
-                await fetchItemsByPatch()
+                fetchItemsByPatch()
             } else {
-                await fetchItemsByGet()
+                fetchItemsByGet()
             }
             Variables.shared.isInited = true
         }
@@ -97,14 +99,18 @@ extension HomeViewModel: HomeViewModelProtocol {
         view?.showStatusIndicator()
         Task {
             let newModel = TodoViewModel(item: TodoItem(text: text))
-            Variables.shared.isDirty ? await fetchItemsByPatch() : await createTask(with: newModel)
+            Variables.shared.isDirty ?
+                fetchItemsByPatch() :
+                createTask(with: newModel)
         }
     }
 
     func delete(at indexPath: IndexPath) {
         view?.showStatusIndicator()
         Task {
-            Variables.shared.isDirty ? await fetchItemsByPatch() : await deleteItem(at: indexPath)
+            Variables.shared.isDirty ?
+                fetchItemsByPatch() :
+                deleteItem(at: indexPath)
         }
     }
 
@@ -127,7 +133,9 @@ extension HomeViewModel: HomeViewModelProtocol {
     func toggleStatus(on model: TodoViewModel, at: IndexPath) {
         view?.showStatusIndicator()
         Task {
-            Variables.shared.isDirty ? await fetchItemsByPatch() : await updateTask(with: model, at: at)
+            Variables.shared.isDirty ?
+                fetchItemsByPatch() :
+                updateTask(with: model, at: at)
         }
         DDLogInfo("Скоро тут (или не тут) будет обработчик ошибок...")
     }
@@ -151,7 +159,7 @@ extension HomeViewModel: HomeViewModelProtocol {
     func setupHeader() {
         let filtered = data.filter { $0.item.isFinished  }
         let amount = filtered.count
-        view?.setupHeader(title: isHidden ? "Показать" : "Скрыть", amount: amount)
+        view?.setupHeader(title: isHidden ? "Скрыть" : "Показать", amount: amount)
     }
 }
 
@@ -162,7 +170,7 @@ private extension HomeViewModel {
     // MARK: - Запросы на сервер -
 
     /// Смержить данные с сервером
-    func fetchItemsByPatch() async {
+    func fetchItemsByPatch() {
         fileCache.load(from: fileName) { [weak self] result in
             switch result {
             case let .success(fileItems):
@@ -189,7 +197,7 @@ private extension HomeViewModel {
     }
 
     /// Получить достоверные данные с сервера
-    func fetchItemsByGet() async {
+    func fetchItemsByGet() {
         network.get { [weak self] res in
             switch res {
             case let .success(networkModel):
@@ -222,7 +230,7 @@ private extension HomeViewModel {
 
     /// Отправить запрос на удаление  элемента на стороне сервера
     /// - Parameter id: Уникальный идентификатор элемента
-    func deleteItemFromServer(by id: String) async {
+    func deleteItemFromServer(by id: String) {
         network.delete(by: id) { [weak self] res in
             switch res {
             case let .success(networkModel):
@@ -242,7 +250,7 @@ private extension HomeViewModel {
 
     /// Отправить запрос на добавление элемента на стороне сервера
     /// - Parameter model: Вью-модель претендента на добавление
-    func addItemToServer(model: TodoViewModel) async {
+    func addItemToServer(model: TodoViewModel) {
         guard let apiElement = ApiTodoItem.parse(from: model) else { return }
         let apiModel = ApiTodoElementModel(element: apiElement, revision: Variables.shared.revision, status: "ok")
         network.add(by: apiModel) { [weak self] res in
@@ -264,13 +272,13 @@ private extension HomeViewModel {
     // Вот тут начинает баговать лоадер... (если после патча начать добавлять элементы)
     func retryWithPatch() {
         Task {
-            await fetchItemsByPatch()
+            fetchItemsByPatch()
         }
     }
 
     /// Отправить запрос на изменение существующего элемента на стороне сервера
     /// - Parameter model: Вью-модель претендента на изменение
-    func changeItemOnServer(model: TodoViewModel) async {
+    func changeItemOnServer(model: TodoViewModel) {
         guard let apiElement = ApiTodoItem.parse(from: model) else { return }
         let apiModel = ApiTodoElementModel(element: apiElement, revision: Variables.shared.revision, status: "ok")
         network.update(by: apiModel) { [weak self] res in
@@ -292,14 +300,14 @@ private extension HomeViewModel {
     /// Помещает  задачу в список кэша.
     /// Отправляет  запрос на добавление задачи на стороне сервера
     /// - Parameter model: Претендент на добавление
-    func createTask(with model: TodoViewModel) async {
+    func createTask(with model: TodoViewModel) {
         data.append(model)
         try? fileCache.add(item: model.item)
         self.view?.items = self.data
         self.saveItems()
 
         // отправка инфы на добавление на сервер
-        await addItemToServer(model: model)
+        addItemToServer(model: model)
 
         DispatchQueue.main {
             self.view?.insertRow(at: IndexPath(row: self.data.count - 1, section: 0))
@@ -331,7 +339,7 @@ private extension HomeViewModel {
             }
             saveItems()
         }
-        let models = data.map { TodoViewModel(item: $0) }
+        let models = data.map(TodoViewModel.init(item:))
         models.forEach {
             $0.delegate = self
         }
@@ -349,8 +357,8 @@ private extension HomeViewModel {
 
             Task {
                 Variables.shared.isDirty ?
-                    await fetchItemsByPatch() :
-                    await changeItemOnServer(model: TodoViewModel(item: item))
+                    fetchItemsByPatch() :
+                    changeItemOnServer(model: TodoViewModel(item: item))
             }
         } else {
             data.append(model)
@@ -358,8 +366,8 @@ private extension HomeViewModel {
 
             Task {
                 Variables.shared.isDirty ?
-                    await fetchItemsByPatch() :
-                    await addItemToServer(model: TodoViewModel(item: item))
+                    fetchItemsByPatch() :
+                    addItemToServer(model: TodoViewModel(item: item))
             }
         }
         saveItems()
@@ -374,7 +382,7 @@ private extension HomeViewModel {
     /// - Parameters:
     ///   - model: Вью-модель таски
     ///   - at: Позиция таски в таблице
-    func updateTask(with model: TodoViewModel, at: IndexPath) async {
+    func updateTask(with model: TodoViewModel, at: IndexPath) {
         guard let view = self.view else { return }
 
         if !self.isHidden {
@@ -390,7 +398,7 @@ private extension HomeViewModel {
             self.saveItems()
         }
 
-        await changeItemOnServer(model: model)
+        changeItemOnServer(model: model)
 
         DispatchQueue.main.async {
             if !self.isHidden {
@@ -404,7 +412,7 @@ private extension HomeViewModel {
 
     /// Удалить таску по indexPath и отправить запрос синхронизации с сервером. Вызывается в момент изменения таски в главном окне
     /// - Parameter indexPath: Позиция элемента  в таблице
-    func deleteItem(at indexPath: IndexPath) async {
+    func deleteItem(at indexPath: IndexPath) {
         guard let view = view else { return }
         var id: String
 
@@ -421,7 +429,7 @@ private extension HomeViewModel {
         }
         saveItems()
 
-        await deleteItemFromServer(by: id)
+        deleteItemFromServer(by: id)
 
         DispatchQueue.main.async {
             view.deleteRow(at: indexPath)

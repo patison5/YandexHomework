@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import GameplayKit
 
 // MARK: - NetworkServiceProtocol
 
@@ -21,7 +20,7 @@ final class NetworkService: NetworkServiceProtocol {
             do {
                 let result = try await ecsponentialRetry(action: { () -> ApiTodoListModel in
                     let patchedList = try await patch(with: list)
-                    if Variables.shared.isDirty { Variables.shared.isDirty = false }
+                    Variables.shared.isDirty = false
                     return patchedList
                 })
                 completion(.success(result))
